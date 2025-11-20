@@ -1,1 +1,38 @@
-<p>dashboard works!</p>
+<!-- frontend/src/app/pages/dashboard/dashboard.component.html -->
+<div class="dashboard-header">
+  <h1>Welcome back, Benji!</h1>
+  <p class="subtitle">Ready to sharpen your musical ear?</p>
+</div>
+
+<!-- Summary Stats -->
+<section class="summary-cards">
+  <div class="card summary-card">
+    <h4>Total Sessions</h4>
+    <p class="stat-value">7</p>
+  </div>
+  <div class="card summary-card">
+    <h4>Overall Accuracy</h4>
+    <p class="stat-value">10%</p>
+  </div>
+  <div class="card summary-card">
+    <h4>Total Correct</h4>
+    <p class="stat-value">1</p>
+  </div>
+</section>
+
+<!-- Training Modes -->
+<h2>Training Modes</h2>
+<section class="training-cards">
+  <!-- We will eventually use *ngFor to loop over an array of modes -->
+  <div class="card training-card">
+    <h3>Single Note</h3>
+    <p class="description">Identify individual notes by ear</p>
+    <!-- other stats -->
+    <button class="btn" style="background: var(--accent-gradient);" (click)="startTraining('single-note')">Start Training →</button>
+  </div>
+  <div class="card training-card">
+    <h3>Chord Recognition</h3>
+    <p class="description">Distinguish between chord types</p>
+    <button class="btn" style="background: var(--color-purple);" (click)="startTraining('chord-recognition')">Start Training →</button>
+  </div>
+  <!-- ... Add cards for Pitch Compari[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fduo-daisy-53708058.figma.site)][[2](https://www.google.com/url?sa=E&q=https%3A%2F%2Fhear-mi-8534c093.base44.app)] and base styles using CSS variables. This makes it incredibly easy to maintain a consistent look.-->

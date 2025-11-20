@@ -1,1 +1,33 @@
-<p>single-note works!</p>
+<!-- frontend/src/app/pages/training/single-note/single-note.component.html -->
+<h1>Single Note Training</h1>
+<p class="subtitle">Identify individual notes by ear</p>
+
+<!-- Stats for this session -->
+<section class="session-stats">
+    <div class="stat-card">Score: <span>{{score}} / {{questions}}</span></div>
+    <div class="stat-card">Accuracy: <span>{{accuracy}}%</span></div>
+    <div class="stat-card">Streak: <span>{{streak}}</span></div>
+    <div class="stat-card">Questions: <span>{{questions}}</span></div>
+</section>
+
+<!-- The main interactive element -->
+<div class="note-player">
+  <button class="play-button" (click)="playNote()">
+    <!-- You can put an SVG play icon here -->
+    ▶
+  </button>
+  <p>Click to play the note</p>
+</div>
+
+<!-- Answer buttons -->
+<div class="note-buttons-grid">
+  <button class="note-button" *ngFor="let note of notes" (click)="selectNote(note)">
+    {{note}}
+  </button>
+</div>
+
+<!-- Session controls -->
+<div class="session-controls">
+  <button class="btn">Reset Session</button>
+  <button class="btn" style="background: var(--accent-gradient);">Save & New Session</button>
+</div>

@@ -1,0 +1,102 @@
+// frontend/src/app/pages/auth.scss
+
+// This container fills the whole screen and centers the card
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  background-image: radial-gradient(circle at top right, rgba(124, 58, 237, 0.4), transparent 40%),
+                    radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.4), transparent 50%);
+}
+
+// The card that holds the form
+.auth-card {
+  background-color: var(--card-background);
+  padding: 2.5rem;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+
+  img, svg { // If you use an img or svg for the logo
+    width: 40px;
+    height: 40px;
+  }
+  h1 {
+    font-size: 2rem;
+    margin: 0;
+  }
+}
+
+h2 {
+  margin-top: 0;
+  font-weight: 600;
+}
+
+p {
+  color: var(--secondary-text);
+  margin-bottom: 2rem;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 1.5rem;
+
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    background-color: var(--background-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--primary-text);
+    box-sizing: border-box; // Ensures padding doesn't affect width
+    font-size: 1rem;
+  }
+  input:focus {
+    outline: none;
+    border-color: var(--color-purple);
+  }
+}
+
+.auth-button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: var(--accent-gradient);
+  color: white;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.switch-auth-link {
+  margin-top: 2rem;
+  color: var(--secondary-text);
+
+  a {
+    color: var(--color-blue);
+    font-weight: 600;
+    text-decoration: none;
+  }
+}

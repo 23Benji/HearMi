@@ -1,1 +1,44 @@
-/* You can add global styles to this file, and also import other style files */
+/* frontend/src/styles.scss */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+:root {
+  /* Define your color palette */
+  --background-primary: #120E21;
+  --background-secondary: #1E1A33;
+  --card-background: #18142A;
+  --primary-text: #FFFFFF;
+  --secondary-text: #A1A1AA;
+  --accent-gradient: linear-gradient(90deg, #3B82F6, #A855F7);
+  --border-color: #3A355A;
+
+  /* Specific colors from the mockup for buttons/highlights */
+  --color-blue: #3B82F6;
+  --color-purple: #A855F7;
+  --color-orange: #F97316;
+  --color-green: #22C55E;
+}
+
+/* Apply base styles to the whole app */
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-primary);
+  color: var(--primary-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Helper class for buttons */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
