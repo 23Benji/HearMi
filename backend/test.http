@@ -1,0 +1,8 @@
+POST http://localhost:3000/api/results
+Content-Type: application/json
+
+{
+  "user_name": "Anna",
+  "exercise_id": 1,
+  "score": 95
+}
