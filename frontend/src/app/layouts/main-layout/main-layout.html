@@ -1,1 +1,38 @@
-<p>main-layout works!</p>
+<!-- frontend/src/app/layouts/main-layout/main-layout.component.html -->
+<div class="app-container">
+  <!-- ===== SIDEBAR ===== -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+      <!-- You can replace this with an SVG or img tag for your logo -->
+      <span class="logo-icon">🎵</span>
+      <h1 class="logo-text">HearMi</h1>
+    </div>
+
+    <nav class="sidebar-nav">
+      <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+
+      <p class="nav-section-title">TRAINING MODES</p>
+      <a class="nav-link" routerLink="/training/single-note" routerLinkActive="active">Single Note</a>
+      <a class="nav-link" routerLink="/training/chord-recognition" routerLinkActive="active">Chord Recognition</a>
+      <a class="nav-link" routerLink="/training/pitch-comparison" routerLinkActive="active">Pitch Comparison</a>
+      <a class="nav-link" routerLink="/training/interval-training" routerLinkActive="active">Interval Training</a>
+    </nav>
+
+    <div class="sidebar-footer">
+        <div class="user-profile">
+            <div class="user-avatar">B</div>
+            <div class="user-info">
+                <span class="user-name">Benji</span>
+                <span class="user-email">benjpaul5@gmail.com</span>
+            </div>
+        </div>
+        <!-- You can add a logout button/icon here later -->
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT AREA ===== -->
+  <main class="main-content">
+    <!-- Angular will render the Dashboard or Training components here -->
+    <router-outlet></router-outlet>
+  </main>
+</div>

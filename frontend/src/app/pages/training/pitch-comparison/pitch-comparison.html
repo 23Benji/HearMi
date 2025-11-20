@@ -1,1 +1,12 @@
-<p>pitch-comparison works!</p>
+<div class="training-header">
+  <h1>Pitch Comparison</h1>
+  <p class="subtitle">Is the second note higher, lower, or the same?</p>
+</div>
+
+<!-- ... same stats, player, and controls sections ... -->
+
+<section class="answer-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 500px;">
+  <button class="answer-button" *ngFor="let option of options">{{option}}</button>
+</section>
+
+<!-- ... -->

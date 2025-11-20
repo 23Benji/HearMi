@@ -1,1 +1,21 @@
-<p>chord-recognition works!</p>
+<div class="training-header">
+  <h1>Chord Recognition</h1>
+  <p class="subtitle">Distinguish between different chord types</p>
+</div>
+
+<section class="session-stats">
+  <!-- ... same stats section as above ... -->
+</section>
+
+<section class="player-section">
+  <button class="play-button"><span class="play-icon">▶</span></button>
+  <p>Click to play the chord</p>
+</section>
+
+<section class="answer-grid">
+  <button class="answer-button" *ngFor="let chord of chords">{{chord}}</button>
+</section>
+
+<section class="session-controls">
+  <!-- ... same controls section as above ... -->
+</section>

@@ -1,44 +1,144 @@
-/* frontend/src/styles.scss */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+// frontend/src/app/pages/dashboard/dashboard.component.scss
 
-:root {
-  /* Define your color palette */
-  --background-primary: #120E21;
-  --background-secondary: #1E1A33;
-  --card-background: #18142A;
-  --primary-text: #FFFFFF;
-  --secondary-text: #A1A1AA;
-  --accent-gradient: linear-gradient(90deg, #3B82F6, #A855F7);
-  --border-color: #3A355A;
-
-  /* Specific colors from the mockup for buttons/highlights */
-  --color-blue: #3B82F6;
-  --color-purple: #A855F7;
-  --color-orange: #F97316;
-  --color-green: #22C55E;
+.dashboard-header {
+  margin-bottom: 2rem;
+  h1 { margin: 0; }
+  .subtitle {
+    color: var(--secondary-text);
+    margin-top: 0.25rem;
+  }
 }
 
-/* Apply base styles to the whole app */
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background-color: var(--background-primary);
-  color: var(--primary-text);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+h2 {
+  margin-top: 2.5rem;
+  margin-bottom: 1.5rem;
 }
 
-/* Helper class for buttons */
-.btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
+// A generic card style
+.card {
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+// Layout for the top summary cards
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.summary-card {
+  h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--secondary-text);
+    font-weight: 500;
+  }
+  .stat-value {
+    font-size: 2rem;
     font-weight: 600;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+    margin: 0;
+  }
 }
 
-.btn:hover {
-    transform: translateY(-2px);
+// Layout for the training mode cards
+.training-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.training-card {
+  h3 { margin-top: 0; }
+  .description {
+    color: var(--secondary-text);
+    min-height: 40px; // Keeps cards aligned
+    margin-bottom: 1.5rem;
+  }
+  button {
+    width: 100%;
+    font-size: 1rem;
+  }
+}
+
+// Styles for the recent activity list
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.activity-info {
+  .activity-title { font-weight: 600; margin: 0; }
+  .activity-details { color: var(--secondary-text); font-size: 0.9rem; margin: 0.25rem 0 0 0; }
+}
+
+.activity-stats {
+  text-align: right;
+  p { margin: 0; }
+}
+
+
+/* ===== NEW STYLES FOR RECENT ACTIVITY ===== */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+}
+
+.activity-icon {
+  font-size: 1.5rem;
+  color: var(--secondary-text);
+}
+
+.activity-info {
+  flex-grow: 1; // This makes it take up the available space
+}
+
+.activity-title {
+  font-weight: 600;
+  margin: 0;
+}
+
+.activity-details {
+  color: var(--secondary-text);
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0 0;
+}
+
+.activity-stats {
+  text-align: right;
+  flex-shrink: 0; // Prevents this section from shrinking
+}
+
+.activity-percent {
+  font-weight: 600;
+  margin: 0;
+}
+
+.activity-streak {
+  color: var(--secondary-text);
+  font-size: 0.9rem;
+  margin: 0.25rem 0 0 0;
 }

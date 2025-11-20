@@ -1,1 +1,12 @@
-<p>interval-training works!</p>
+<div class="training-header">
+  <h1>Interval Training</h1>
+  <p class="subtitle">Identify the interval between two notes</p>
+</div>
+
+<!-- ... same stats, player, and controls sections ... -->
+
+<section class="answer-grid">
+    <button class="answer-button" *ngFor="let interval of intervals">{{interval}}</button>
+</section>
+
+<!-- ... -->

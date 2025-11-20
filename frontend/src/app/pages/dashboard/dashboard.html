@@ -23,16 +23,76 @@
 <!-- Training Modes -->
 <h2>Training Modes</h2>
 <section class="training-cards">
-  <!-- We will eventually use *ngFor to loop over an array of modes -->
+  <!-- Single Note -->
   <div class="card training-card">
     <h3>Single Note</h3>
     <p class="description">Identify individual notes by ear</p>
-    <!-- other stats -->
     <button class="btn" style="background: var(--accent-gradient);" (click)="startTraining('single-note')">Start Training →</button>
   </div>
+  <!-- Chord Recognition -->
   <div class="card training-card">
     <h3>Chord Recognition</h3>
     <p class="description">Distinguish between chord types</p>
     <button class="btn" style="background: var(--color-purple);" (click)="startTraining('chord-recognition')">Start Training →</button>
   </div>
-  <!-- ... Add cards for Pitch Compari[[1](https://www.google.com/url?sa=E&q=https%3A%2F%2Fduo-daisy-53708058.figma.site)][[2](https://www.google.com/url?sa=E&q=https%3A%2F%2Fhear-mi-8534c093.base44.app)] and base styles using CSS variables. This makes it incredibly easy to maintain a consistent look.-->
+  <!-- Pitch Comparison -->
+  <div class="card training-card">
+    <h3>Pitch Comparison</h3>
+    <p class="description">Compare pitch relationships</p>
+    <button class="btn" style="background: var(--color-orange);" (click)="startTraining('pitch-comparison')">Start Training →</button>
+  </div>
+  <!-- Interval Training -->
+  <div class="card training-card">
+    <h3>Interval Training</h3>
+    <p class="description">Train intervals from unison to octave</p>
+    <button class="btn" style="background: var(--color-green);" (click)="startTraining('interval-training')">Start Training →</button>
+  </div>
+</section>
+
+<!-- ================================== -->
+<!-- ===== NEW SECTION STARTS HERE ===== -->
+<!-- ================================== -->
+
+<h2>Recent Activity</h2>
+<section class="activity-list">
+  <!-- This is where you will eventually use *ngFor to loop over an array of recent activities -->
+
+  <!-- Example Item 1: Interval Training -->
+  <div class="activity-item">
+    <div class="activity-icon">↑↓</div>
+    <div class="activity-info">
+        <p class="activity-title">Interval Training</p>
+        <p class="activity-details">0/1 correct</p>
+    </div>
+    <div class="activity-stats">
+        <p class="activity-percent">0%</p>
+        <p class="activity-streak">Streak: 0</p>
+    </div>
+  </div>
+
+  <!-- Example Item 2: Chord Recognition -->
+  <div class="activity-item">
+    <div class="activity-icon">♫</div>
+    <div class="activity-info">
+        <p class="activity-title">Chord Recognition</p>
+        <p class="activity-details">0/1 correct</p>
+    </div>
+    <div class="activity-stats">
+        <p class="activity-percent">0%</p>
+        <p class="activity-streak">Streak: 0</p>
+    </div>
+  </div>
+
+  <!-- Example Item 3: Interval Training (again) -->
+  <div class="activity-item">
+    <div class="activity-icon">↑↓</div>
+    <div class="activity-info">
+        <p class="activity-title">Interval Training</p>
+        <p class="activity-details">0/1 correct</p>
+    </div>
+    <div class="activity-stats">
+        <p class="activity-percent">0%</p>
+        <p class="activity-streak">Streak: 0</p>
+    </div>
+  </div>
+</section>
