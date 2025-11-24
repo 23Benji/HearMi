@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PitchComparison } from './pitch-comparison';
+import { PitchComparisonComponent } from './pitch-comparison';
 
 describe('PitchComparison', () => {
-  let component: PitchComparison;
-  let fixture: ComponentFixture<PitchComparison>;
+  let component: PitchComparisonComponent;
+  let fixture: ComponentFixture<PitchComparisonComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PitchComparison]
+      imports: [PitchComparisonComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PitchComparison);
+    fixture = TestBed.createComponent(PitchComparisonComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

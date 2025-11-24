@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ChordRecognition } from './chord-recognition';
+import { ChordRecognitionComponent } from './chord-recognition';
 
 describe('ChordRecognition', () => {
-  let component: ChordRecognition;
-  let fixture: ComponentFixture<ChordRecognition>;
+  let component: ChordRecognitionComponent;
+  let fixture: ComponentFixture<ChordRecognitionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ChordRecognition]
+      imports: [ChordRecognitionComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ChordRecognition);
+    fixture = TestBed.createComponent(ChordRecognitionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
