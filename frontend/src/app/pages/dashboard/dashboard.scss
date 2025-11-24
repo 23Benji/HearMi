@@ -21,11 +21,17 @@ h2 {
 
 // Generic card style with glass effect
 .card {
-  background-color: rgba(22, 28, 45, 0.5); // Equivalent to bg-slate-900/50
-  border: 1px solid rgba(48, 58, 82, 0.5); // Equivalent to border-slate-800/50
+  background-color: rgba(22, 28, 45, 0.5);
+  border: 1px solid rgba(48, 58, 82, 0.5);
   backdrop-filter: blur(8px);
   border-radius: 16px;
   padding: 1.5rem;
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: scale(1.03) translateY(-4px);
 }
 
 .icon-wrapper {
@@ -37,7 +43,6 @@ h2 {
   justify-content: center;
   flex-shrink: 0;
 
-  // Color variants for icon backgrounds
   &.bg-purple { background-color: rgba($purple, 0.2); color: $purple; }
   &.bg-cyan   { background-color: rgba($cyan, 0.2); color: $cyan; }
   &.bg-orange { background-color: rgba($orange, 0.2); color: $orange; }
@@ -55,6 +60,8 @@ h2 {
   display: flex;
   align-items: center;
   gap: 1rem;
+  padding: 1.25rem;
+
   .text-wrapper h4 {
     color: var(--primary-text);
     font-size: 1rem;
@@ -62,23 +69,30 @@ h2 {
     margin-bottom: 0.25rem;
   }
   .stat-value {
-    font-size: 2rem;
+    font-size: 1.75rem;
     font-weight: 700;
   }
 }
 
-// Training Cards
+// ===================================
+// VVV THIS IS THE UPDATED SECTION VVV
+// ===================================
 .training-cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(2, 1fr); // 2 columns by default
   gap: 1.5rem;
+
+  // Make it responsive for smaller screens
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr; // 1 column on tablets and mobile
+  }
 }
 
 .training-card {
   display: flex;
   flex-direction: column;
-  border-top: 1px solid; // The colored top border
-  
+  border-top: 1px solid;
+
   .card-header {
     display: flex;
     align-items: center;
@@ -130,3 +144,76 @@ h2 {
 .text-green { color: $green; }
 .btn-green { background-color: $green; border-color: $green; color: #10321c; }
 .training-card:has(.btn-green) { border-top-color: $green; }
+
+
+/* ADD THESE STYLES TO THE END OF YOUR DASHBOARD SCSS */
+
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem; // A bit tighter spacing for list items
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  // Use the same glass effect as our main cards
+  background-color: rgba(22, 28, 45, 0.5);
+  border: 1px solid rgba(48, 58, 82, 0.5);
+  backdrop-filter: blur(8px);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(48, 58, 82, 0.5); // Light up on hover
+  }
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%; // Make it circular
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  // Use the same color classes as our icon-wrapper
+  &.bg-purple { background-color: rgba($purple, 0.2); color: $purple; }
+  &.bg-cyan   { background-color: rgba($cyan, 0.2); color: $cyan; }
+  &.bg-orange { background-color: rgba($orange, 0.2); color: $orange; }
+  &.bg-green  { background-color: rgba($green, 0.2); color: $green; }
+}
+
+.activity-info {
+  flex-grow: 1; // Pushes the stats to the right
+}
+
+.activity-title {
+  font-weight: 600;
+  color: var(--primary-text);
+  margin-bottom: 0.125rem;
+}
+
+.activity-details {
+  font-size: 0.875rem;
+  color: var(--secondary-text);
+}
+
+.activity-stats {
+  text-align: right;
+  line-height: 1.4;
+}
+
+.activity-percent {
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--primary-text);
+}
+
+.activity-streak {
+  font-size: 0.8rem;
+  color: var(--secondary-text);
+}

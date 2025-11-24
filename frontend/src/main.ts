@@ -17,7 +17,8 @@ import {
   LogOut,
   Target,
   Award,
-  TrendingUp
+  TrendingUp,
+  ArrowUpDown
 } from 'lucide-angular';
 
 bootstrapApplication(AppComponent, {
@@ -35,7 +36,8 @@ bootstrapApplication(AppComponent, {
         LogOut,
         Target,
         Award,
-        TrendingUp
+        TrendingUp,
+        ArrowUpDown
       })
     )
   ]

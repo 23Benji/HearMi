@@ -98,3 +98,34 @@
     <button class="btn btn-green" (click)="startTraining('interval-training')">Start Training →</button>
   </div>
 </section>
+
+  <!-- ADD THIS ENTIRE SECTION TO THE END OF YOUR DASHBOARD HTML -->
+
+<h2>Recent Activity</h2>
+<section class="activity-list">
+
+  <!-- This is the new @for block syntax -->
+  @for (activity of recentActivities; track activity.id) {
+    <div class="activity-item">
+      <div class="activity-icon {{ activity.colorClass }}">
+        <lucide-icon [name]="activity.iconName" [size]="20"></lucide-icon>
+      </div>
+
+      <div class="activity-info">
+        <p class="activity-title">{{ activity.modeName }}</p>
+        <p class="activity-details">{{ activity.score }}/{{ activity.total }} correct</p>
+      </div>
+
+      <div class="activity-stats">
+        <p class="activity-percent">{{ activity.accuracy }}%</p>
+        <p class="activity-streak">Streak: {{ activity.streak }}</p>
+      </div>
+    </div>
+  } @empty {
+    <!-- This part shows up if the recentActivities array is empty -->
+    <div class="activity-item">
+      <p>No recent activity to show. Start a training session!</p>
+    </div>
+  }
+
+</section>

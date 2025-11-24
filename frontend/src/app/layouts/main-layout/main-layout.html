@@ -1,24 +1,23 @@
 <!-- frontend/src/app/layouts/main-layout/main-layout.component.html -->
 <div class="app-container">
   <aside class="sidebar">
+    <!-- HEADER: Now contains only the logo, which is a link to the dashboard -->
+<!-- HEADER: Now contains only the logo, which is a link to the dashboard -->
     <div class="sidebar-header">
-      <div class="logo-box">
-        <lucide-icon name="music" [size]="24"></lucide-icon>
-      </div>
-      <div class="logo-text">
-        <h2>HearMi</h2>
-        <p>Ear Training Platform</p>
-      </div>
+      <a class="logo-wrapper" routerLink="/dashboard">
+        <!--
+          Replace 'assets/images/my-logo.svg' with the path to your actual logo file.
+          The path starts from 'assets', not 'src/assets'.
+        -->
+<img src="assets/images/HearMi.svg" alt="HearMi Logo">    </a>
     </div>
 
     <nav class="sidebar-nav">
-      <!-- ===== DASHBOARD LINK MOVED HERE ===== -->
       <a class="nav-link" routerLink="/dashboard" routerLinkActive="active">
         <lucide-icon name="layout-dashboard" [size]="20"></lucide-icon>
         <span>Dashboard</span>
       </a>
 
-      <!-- ===== TRAINING MODES SECTION STARTS HERE ===== -->
       <p class="nav-section-title">TRAINING MODES</p>
 
       <a class="nav-link" routerLink="/training/single-note" routerLinkActive="active">
@@ -39,6 +38,7 @@
       </a>
     </nav>
 
+    <!-- FOOTER: Restructured for side-by-side layout -->
     <div class="sidebar-footer">
       <div class="user-profile">
         <div class="user-avatar">D</div>
@@ -47,9 +47,9 @@
           <span class="user-email">benipaun5@gmail.com</span>
         </div>
       </div>
-      <a href="#" class="logout-link">
+      <!-- LOGOUT: Now an icon-only button on the right -->
+      <a href="#" class="logout-button">
         <lucide-icon name="log-out" [size]="20"></lucide-icon>
-        <span>Logout</span>
       </a>
     </div>
   </aside>

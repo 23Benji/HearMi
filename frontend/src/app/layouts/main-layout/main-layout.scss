@@ -11,8 +11,8 @@
 }
 
 .sidebar {
-  width: 260px;
-  background-color: #000; // The sidebar in the mockup is solid black
+  width: 215px;
+  backdrop-filter: blur(15px);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -110,5 +110,50 @@
   @extend .nav-link;
   lucide-icon {
     vertical-align: middle;
+  }
+}
+
+// In main-layout.component.scss
+
+.logo-wrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 300px;  // This sets the container width
+  height: 100px; // This sets the container height
+  text-decoration: none;
+  transition: transform 0.2s ease;
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  // VVV ADD THIS NEW BLOCK VVV
+  img {
+    width: 100%;      // Tells the image to be as wide as the container (48px)
+    height: 100%;     // Tells the image to be as tall as the container (48px)
+    padding: 8px;     // Adds some space so the logo doesn't touch the edges
+    box-sizing: border-box; // Ensures padding is included in the size, not added on
+    object-fit: contain; // IMPORTANT: Scales the image to fit without stretching
+  }
+}
+
+.sidebar-footer {
+  // New layout for footer
+  display: flex;
+  align-items: center;
+  justify-content: space-between; // This pushes items to opposite ends
+  border-top: 1px solid var(--border-color);
+  padding-top: 1.5rem;
+}
+
+.logout-button {
+  color: var(--secondary-text);
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: flex;
+  transition: color 0.2s ease, background-color 0.2s ease;
+  &:hover {
+    color: var(--primary-text);
+    background-color: rgba(255, 255, 255, 0.05);
   }
 }

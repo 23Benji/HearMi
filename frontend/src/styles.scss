@@ -1,44 +1,53 @@
 /* frontend/src/styles.scss */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 :root {
-  /* Define your color palette */
-  --background-primary: #120E21;
-  --background-secondary: #1E1A33;
-  --card-background: #18142A;
-  --primary-text: #FFFFFF;
-  --secondary-text: #A1A1AA;
-  --accent-gradient: linear-gradient(90deg, #3B82F6, #A855F7);
-  --border-color: #3A355A;
+  /* Main Colors */
+  --background-primary: #120B29;
+  --sidebar-background: #09041A;
+  --card-background: #1C123D;
+  --border-color: #302454;
+  --border-color-light: rgba(255, 255, 255, 0.1);
 
-  /* Specific colors from the mockup for buttons/highlights */
-  --color-blue: #3B82F6;
-  --color-purple: #A855F7;
-  --color-orange: #F97316;
-  --color-green: #22C55E;
+  /* Text Colors */
+  --primary-text: #E2E8F0; // Slightly softer white
+  --secondary-text: #94A3B8; // A modern, cool gray
+
+  /* Accent Colors for Glass Effect */
+  --accent-blue: #38BDF8;
+  --accent-pink: #F471B5; // Using pink as requested
+  --accent-orange: #FB923C;
+  --accent-green: #4ADE80;
+
+  /* Transparent versions for glass backgrounds */
+  --accent-blue-glass: rgba(56, 189, 248, 0.1);
+  --accent-pink-glass: rgba(244, 113, 181, 0.1);
+  --accent-orange-glass: rgba(251, 146, 60, 0.1);
+  --accent-green-glass: rgba(74, 222, 128, 0.1);
 }
 
-/* Apply base styles to the whole app */
 body {
   margin: 0;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Inter', sans-serif;
   background-color: var(--background-primary);
   color: var(--primary-text);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-image: radial-gradient(circle at 10% 20%, rgba(192, 132, 252, 0.15), transparent 30%),
+                    radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.15), transparent 30%);
 }
 
-/* Helper class for buttons */
+/* Base button style with new hover animation */
 .btn {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    font-weight: 600;
-    color: white;
-    cursor: pointer;
-    transition: transform 0.2s ease;
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94); // Smoother transition
 }
 
 .btn:hover {
-    transform: translateY(-2px);
+  transform: scale(1.05); // Zoom-in effect
 }
