@@ -5,7 +5,7 @@ import { Routes } from '@angular/router';
 // Import all the components your routes will use
 import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
-import { MainLayout } from './layouts/main-layout/main-layout';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout';
 import { DashboardComponent } from './pages/dashboard/dashboard';
 import { SingleNoteComponent } from './pages/training/single-note/single-note';
 import { ChordRecognitionComponent } from './pages/training/chord-recognition/chord-recognition';
@@ -28,7 +28,7 @@ export const routes: Routes = [
   // meaning they will always be displayed WITH the sidebar.
   {
     path: '', // This acts as a parent for all main app routes
-    component: MainLayout,
+    component: MainLayoutComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'training/single-note', component: SingleNoteComponent },

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SingleNote } from './single-note';
+import { SingleNoteComponent } from './single-note';
 
 describe('SingleNote', () => {
-  let component: SingleNote;
-  let fixture: ComponentFixture<SingleNote>;
+  let component: SingleNoteComponent;
+  let fixture: ComponentFixture<SingleNoteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SingleNote]
+      imports: [SingleNoteComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SingleNote);
+    fixture = TestBed.createComponent(SingleNoteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

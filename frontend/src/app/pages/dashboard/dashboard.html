@@ -1,98 +1,100 @@
 <!-- frontend/src/app/pages/dashboard/dashboard.component.html -->
 <div class="dashboard-header">
-  <h1>Welcome back, Benji!</h1>
-  <p class="subtitle">Ready to sharpen your musical ear?</p>
+  <h1>Welcome back, Davide Beniamin Paun</h1>
+  <p class="subtitle">Continue your ear training journey</p>
 </div>
 
-<!-- Summary Stats -->
+<!-- Overall Stats -->
 <section class="summary-cards">
   <div class="card summary-card">
-    <h4>Total Sessions</h4>
-    <p class="stat-value">7</p>
+    <div class="icon-wrapper bg-purple">
+      <lucide-icon name="target" [size]="20"></lucide-icon>
+    </div>
+    <div class="text-wrapper">
+      <h4>Total Sessions</h4>
+      <p class="stat-value">8</p>
+    </div>
   </div>
   <div class="card summary-card">
-    <h4>Overall Accuracy</h4>
-    <p class="stat-value">10%</p>
+    <div class="icon-wrapper bg-cyan">
+      <lucide-icon name="award" [size]="20"></lucide-icon>
+    </div>
+    <div class="text-wrapper">
+      <h4>Overall Accuracy</h4>
+      <p class="stat-value text-cyan">57.5%</p>
+    </div>
   </div>
   <div class="card summary-card">
-    <h4>Total Correct</h4>
-    <p class="stat-value">1</p>
+    <div class="icon-wrapper bg-orange">
+      <lucide-icon name="trending-up" [size]="20"></lucide-icon>
+    </div>
+    <div class="text-wrapper">
+      <h4>Total Correct</h4>
+      <p class="stat-value">23</p>
+    </div>
   </div>
 </section>
 
 <!-- Training Modes -->
 <h2>Training Modes</h2>
 <section class="training-cards">
-  <!-- Single Note -->
   <div class="card training-card">
-    <h3>Single Note</h3>
-    <p class="description">Identify individual notes by ear</p>
-    <button class="btn" style="background: var(--accent-gradient);" (click)="startTraining('single-note')">Start Training →</button>
+    <div class="card-header">
+      <div class="icon-wrapper bg-cyan"><lucide-icon name="music" [size]="20"></lucide-icon></div>
+      <div class="text-wrapper">
+        <h3>Single Note</h3><p class="description">Identify individual notes</p>
+      </div>
+    </div>
+    <div class="card-stats">
+      <div class="stat-item"><span>Sessions</span> <span>4</span></div>
+      <div class="stat-item"><span>Best Accuracy</span> <span class="text-cyan">44.4%</span></div>
+      <div class="stat-item"><span>Best Streak</span> <span>1</span></div>
+    </div>
+    <button class="btn btn-cyan" (click)="startTraining('single-note')">Start Training →</button>
   </div>
-  <!-- Chord Recognition -->
+
   <div class="card training-card">
-    <h3>Chord Recognition</h3>
-    <p class="description">Distinguish between chord types</p>
-    <button class="btn" style="background: var(--color-purple);" (click)="startTraining('chord-recognition')">Start Training →</button>
+    <div class="card-header">
+      <div class="icon-wrapper bg-purple"><lucide-icon name="music-2" [size]="20"></lucide-icon></div>
+      <div class="text-wrapper">
+        <h3>Chord Recognition</h3><p class="description">Identify chord types</p>
+      </div>
+    </div>
+    <div class="card-stats">
+      <div class="stat-item"><span>Sessions</span> <span>1</span></div>
+      <div class="stat-item"><span>Best Accuracy</span> <span class="text-purple">20.0%</span></div>
+      <div class="stat-item"><span>Best Streak</span> <span>0</span></div>
+    </div>
+    <button class="btn btn-purple" (click)="startTraining('chord-recognition')">Start Training →</button>
   </div>
-  <!-- Pitch Comparison -->
+
   <div class="card training-card">
-    <h3>Pitch Comparison</h3>
-    <p class="description">Compare pitch relationships</p>
-    <button class="btn" style="background: var(--color-orange);" (click)="startTraining('pitch-comparison')">Start Training →</button>
+    <div class="card-header">
+      <div class="icon-wrapper bg-orange"><lucide-icon name="git-compare" [size]="20"></lucide-icon></div>
+      <div class="text-wrapper">
+        <h3>Pitch Comparison</h3><p class="description">Compare note intervals</p>
+      </div>
+    </div>
+    <div class="card-stats">
+      <div class="stat-item"><span>Sessions</span> <span>2</span></div>
+      <div class="stat-item"><span>Best Accuracy</span> <span class="text-orange">90.0%</span></div>
+      <div class="stat-item"><span>Best Streak</span> <span>0</span></div>
+    </div>
+    <button class="btn btn-orange" (click)="startTraining('pitch-comparison')">Start Training →</button>
   </div>
-  <!-- Interval Training -->
+
   <div class="card training-card">
-    <h3>Interval Training</h3>
-    <p class="description">Train intervals from unison to octave</p>
-    <button class="btn" style="background: var(--color-green);" (click)="startTraining('interval-training')">Start Training →</button>
-  </div>
-</section>
-
-<!-- ================================== -->
-<!-- ===== NEW SECTION STARTS HERE ===== -->
-<!-- ================================== -->
-
-<h2>Recent Activity</h2>
-<section class="activity-list">
-  <!-- This is where you will eventually use *ngFor to loop over an array of recent activities -->
-
-  <!-- Example Item 1: Interval Training -->
-  <div class="activity-item">
-    <div class="activity-icon">↑↓</div>
-    <div class="activity-info">
-        <p class="activity-title">Interval Training</p>
-        <p class="activity-details">0/1 correct</p>
+    <div class="card-header">
+      <div class="icon-wrapper bg-green"><lucide-icon name="waves" [size]="20"></lucide-icon></div>
+      <div class="text-wrapper">
+        <h3>Interval Training</h3><p class="description">Recognize musical intervals</p>
+      </div>
     </div>
-    <div class="activity-stats">
-        <p class="activity-percent">0%</p>
-        <p class="activity-streak">Streak: 0</p>
+    <div class="card-stats">
+      <div class="stat-item"><span>Sessions</span> <span>1</span></div>
+      <div class="stat-item"><span>Best Accuracy</span> <span class="text-green">60.0%</span></div>
+      <div class="stat-item"><span>Best Streak</span> <span>2</span></div>
     </div>
-  </div>
-
-  <!-- Example Item 2: Chord Recognition -->
-  <div class="activity-item">
-    <div class="activity-icon">♫</div>
-    <div class="activity-info">
-        <p class="activity-title">Chord Recognition</p>
-        <p class="activity-details">0/1 correct</p>
-    </div>
-    <div class="activity-stats">
-        <p class="activity-percent">0%</p>
-        <p class="activity-streak">Streak: 0</p>
-    </div>
-  </div>
-
-  <!-- Example Item 3: Interval Training (again) -->
-  <div class="activity-item">
-    <div class="activity-icon">↑↓</div>
-    <div class="activity-info">
-        <p class="activity-title">Interval Training</p>
-        <p class="activity-details">0/1 correct</p>
-    </div>
-    <div class="activity-stats">
-        <p class="activity-percent">0%</p>
-        <p class="activity-streak">Streak: 0</p>
-    </div>
+    <button class="btn btn-green" (click)="startTraining('interval-training')">Start Training →</button>
   </div>
 </section>

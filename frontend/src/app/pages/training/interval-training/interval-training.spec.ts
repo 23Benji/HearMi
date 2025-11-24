@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IntervalTraining } from './interval-training';
+import { IntervalTrainingComponent } from './interval-training';
 
 describe('IntervalTraining', () => {
-  let component: IntervalTraining;
-  let fixture: ComponentFixture<IntervalTraining>;
+  let component: IntervalTrainingComponent;
+  let fixture: ComponentFixture<IntervalTrainingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IntervalTraining]
+      imports: [IntervalTrainingComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(IntervalTraining);
+    fixture = TestBed.createComponent(IntervalTrainingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

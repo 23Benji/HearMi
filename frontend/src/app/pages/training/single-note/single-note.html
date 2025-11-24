@@ -11,15 +11,17 @@
 </section>
 
 <section class="player-section">
-  <button class="play-button"><span class="play-icon">▶</span></button>
+  <button class="play-button" (click)="playChallenge()">
+    <span class="play-icon">▶</span>
+  </button>
   <p>Click to play the note</p>
 </section>
 
-<section class="answer-grid">
-  <button class="answer-button" *ngFor="let note of notes">{{note}}</button>
+<section class="answer-grid" style="grid-template-columns: repeat(6, 1fr);">
+  <button class="answer-button" *ngFor="let note of notes" (click)="checkAnswer(note)">{{note}}</button>
 </section>
 
 <section class="session-controls">
-  <button class="btn">Reset Session</button>
-  <button class="btn" style="background: var(--accent-gradient);">Save & New Session</button>
+  <button class="btn" (click)="resetSession()">Reset Session</button>
+  <button class="btn btn-cyan" (click)="saveSession()">Save & New Session</button>
 </section>

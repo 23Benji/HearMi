@@ -2,10 +2,10 @@
 
 .training-header {
   margin-bottom: 2rem;
-  h1 { margin: 0; }
+  h1 { font-size: 2.25rem; margin-bottom: 0.5rem; font-weight: 700; }
   .subtitle {
     color: var(--secondary-text);
-    margin-top: 0.25rem;
+    font-size: 1.125rem;
   }
 }
 
@@ -17,14 +17,15 @@
 }
 
 .stat-card {
-  background-color: var(--card-background);
-  border: 1px solid var(--border-color);
+  background-color: rgba(22, 28, 45, 0.5);
+  border: 1px solid rgba(48, 58, 82, 0.5);
+  backdrop-filter: blur(8px);
   border-radius: 12px;
   padding: 1rem 1.5rem;
   font-size: 1rem;
   font-weight: 500;
   span {
-    font-weight: 600;
+    font-weight: 700;
   }
 }
 
@@ -42,7 +43,7 @@
   height: 100px;
   border-radius: 50%;
   border: none;
-  background: var(--accent-gradient);
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
   color: white;
   display: flex;
   align-items: center;
@@ -53,34 +54,36 @@
   &:hover {
     transform: scale(1.05);
   }
-  // This is for a simple play triangle icon
+
+  // This class styles the '▶' character
   .play-icon {
-    font-size: 2rem;
+    font-size: 2.5rem;
     line-height: 1;
-    margin-left: 5px; // Optical alignment
+    margin-left: 5px; // Optical alignment for the triangle
   }
 }
 
 .answer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 1rem;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto 3rem auto;
 }
 
 .answer-button {
   padding: 1rem;
-  background-color: var(--background-secondary);
+  background-color: var(--card-background);
   border: 1px solid var(--border-color);
   color: var(--primary-text);
   border-radius: 8px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
   &:hover {
     background-color: var(--border-color);
+    border-color: var(--secondary-text);
   }
 }
 
@@ -89,4 +92,15 @@
   justify-content: center;
   gap: 1.5rem;
   margin-top: 2rem;
+
+  // Use the .btn class from styles.scss
+  .btn {
+    min-width: 180px;
+  }
 }
+
+// Button color styles from dashboard.scss for consistency
+.btn-cyan { background-color: #22d3ee; border-color: #22d3ee; color: #022c33; }
+.btn-purple { background-color: #c084fc; border-color: #c084fc; color: #2e1a3b; }
+.btn-orange { background-color: #fb923c; border-color: #fb923c; color: #41230e; }
+.btn-green { background-color: #4ade80; border-color: #4ade80; color: #10321c; }

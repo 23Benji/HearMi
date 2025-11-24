@@ -1,38 +1,27 @@
-// frontend/src/app/pages/dashboard/dashboard.component.ts
+// frontend/src/app/pages/dashboard/dashboard.ts
 
 import { Component } from '@angular/core';
-import { Router } from '@angular/router'; // 1. Import the Router
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+// 1. Just import the module itself. NO ICONS here.
+import { LucideAngularModule } from 'lucide-angular';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './dashboard.html',
-  styleUrl: './dashboard.scss'
+  imports: [
+    CommonModule,
+    // 2. Add ONLY the module name to the imports array.
+    LucideAngularModule
+  ],
+  templateUrl: './dashboard.html', // Corrected filename
+  styleUrl: './dashboard.scss'   // Corrected filename
 })
 export class DashboardComponent {
-
-  // 2. Inject the Router service into the component's constructor.
-  // By making it 'private', it becomes a property of this class (this.router).
   constructor(private router: Router) {}
 
-
-  /**
-   * Navigates the user to the specific training page based on the mode provided.
-   * This function is called from the (click) event in the dashboard.component.html file.
-   * @param mode A string representing the training mode, e.g., 'single-note', 'chord-recognition'.
-   */
   startTraining(mode: string): void {
-    if (!mode) {
-      console.error('Training mode is not specified!');
-      return;
-    }
-
-    // 3. Use the router's navigate method to change the URL.
-    // The path '/training/:mode' is what we defined in app.routes.ts.
-    // For example, if 'mode' is 'single-note', it navigates to '/training/single-note'.
     this.router.navigate(['/training', mode]);
   }
-
 }

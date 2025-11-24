@@ -4,18 +4,24 @@
 </div>
 
 <section class="session-stats">
-  <!-- ... same stats section as above ... -->
+  <div class="stat-card">Score: <span>{{score}} / {{questions}}</span></div>
+  <div class="stat-card">Accuracy: <span>{{accuracy}}%</span></div>
+  <div class="stat-card">Streak: <span>{{streak}}</span></div>
+  <div class="stat-card">Questions: <span>{{questions}}</span></div>
 </section>
 
 <section class="player-section">
-  <button class="play-button"><span class="play-icon">▶</span></button>
+  <button class="play-button" (click)="playChallenge()">
+    <span class="play-icon">▶</span>
+  </button>
   <p>Click to play the chord</p>
 </section>
 
 <section class="answer-grid">
-  <button class="answer-button" *ngFor="let chord of chords">{{chord}}</button>
+  <button class="answer-button" *ngFor="let chord of chords" (click)="checkAnswer(chord)">{{chord}}</button>
 </section>
 
 <section class="session-controls">
-  <!-- ... same controls section as above ... -->
+  <button class="btn" (click)="resetSession()">Reset Session</button>
+  <button class="btn btn-purple" (click)="saveSession()">Save & New Session</button>
 </section>

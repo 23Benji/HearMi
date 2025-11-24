@@ -98,3 +98,17 @@
   padding: 2rem 3rem;
   overflow-y: auto; // Allows content to scroll if it's too long
 }
+.nav-link {
+  // ... other styles
+  lucide-icon {
+    // Vertically align icons with text
+    vertical-align: middle;
+  }
+}
+
+.logout-link {
+  @extend .nav-link;
+  lucide-icon {
+    vertical-align: middle;
+  }
+}
