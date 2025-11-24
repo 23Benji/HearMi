@@ -18,7 +18,14 @@ import {
   Target,
   Award,
   TrendingUp,
-  ArrowUpDown
+  ArrowUpDown,
+  Flame,
+  ListChecks,
+  CheckCircle2,
+  XCircle,
+  ArrowUp,
+  ArrowDown,
+  Minus
 } from 'lucide-angular';
 
 bootstrapApplication(AppComponent, {
@@ -37,7 +44,14 @@ bootstrapApplication(AppComponent, {
         Target,
         Award,
         TrendingUp,
-        ArrowUpDown
+        ArrowUpDown,
+        Flame,
+        ListChecks,
+        CheckCircle2,
+        XCircle,
+        ArrowUp,
+        ArrowDown,
+        Minus
       })
     )
   ]

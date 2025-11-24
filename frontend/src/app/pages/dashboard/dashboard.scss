@@ -58,25 +58,39 @@ h2 {
 
 .summary-card {
   display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.25rem;
+  flex-direction: column; // This is the key: stack items vertically
+  justify-content: space-between; // Pushes header up and value down
+  padding: 1.5rem;
+  min-height: 140px; // Gives the cards a consistent, shorter height
+  cursor: default; // Disable pointer cursor
 
-  .text-wrapper h4 {
-    color: var(--primary-text);
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0.25rem;
+  .card-header {
+    display: flex;
+    align-items: center; // Vertically align icon and title
+    gap: 0.75rem;
+    width: 100%;
+
+    h4 {
+      color: var(--secondary-text); // Title is the secondary color
+      font-size: 1rem;
+      font-weight: 500;
+      margin: 0;
+    }
   }
+
   .stat-value {
-    font-size: 1.75rem;
+    font-size: 2.5rem; // A nice large font for the value
     font-weight: 700;
+    margin: 0; // Remove default paragraph margins
+    line-height: 1; // Tighten the line height
+    align-self: flex-start; // Align the number to the left
   }
 }
-
 // ===================================
 // VVV THIS IS THE UPDATED SECTION VVV
 // ===================================
+// VVV REPLACE THIS ENTIRE SECTION in your SCSS VVV
+
 .training-cards {
   display: grid;
   grid-template-columns: repeat(2, 1fr); // 2 columns by default
@@ -92,6 +106,30 @@ h2 {
   display: flex;
   flex-direction: column;
   border-top: 1px solid;
+  position: relative; // Required for the pseudo-element glow
+  overflow: hidden;   // Keeps the glow inside the card's rounded corners
+  z-index: 1;         // Ensures card content is above the glow
+  cursor: default;
+
+
+  // The ::before pseudo-element is our new "glow" layer
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit; // Match the card's border-radius
+    opacity: 0; // The glow starts completely invisible
+    transition: opacity 0.3s ease-in-out; // Animate the fade-in/out
+    z-index: -1; // Place the glow layer BEHIND the card's content
+  }
+
+  // When we hover over the card, we make the glow visible
+  &:hover::before {
+    opacity: 1;
+  }
 
   .card-header {
     display: flex;
@@ -129,22 +167,42 @@ h2 {
 }
 
 // Color variants for cards and text
+// Now, we apply the unique gradient glow to each card's ::before element
 .text-cyan { color: $cyan; }
 .btn-cyan { background-color: $cyan; border-color: $cyan; color: #022c33; }
-.training-card:has(.btn-cyan) { border-top-color: $cyan; }
+.training-card:has(.btn-cyan) {
+  border-top-color: $cyan;
+  &::before {
+    background: radial-gradient(circle at 50% 0%, rgba($cyan, 0.15), transparent 70%);
+  }
+}
 
 .text-purple { color: $purple; }
 .btn-purple { background-color: $purple; border-color: $purple; color: #2e1a3b; }
-.training-card:has(.btn-purple) { border-top-color: $purple; }
+.training-card:has(.btn-purple) {
+  border-top-color: $purple;
+  &::before {
+    background: radial-gradient(circle at 50% 0%, rgba($purple, 0.15), transparent 70%);
+  }
+}
 
 .text-orange { color: $orange; }
 .btn-orange { background-color: $orange; border-color: $orange; color: #41230e; }
-.training-card:has(.btn-orange) { border-top-color: $orange; }
+.training-card:has(.btn-orange) {
+  border-top-color: $orange;
+  &::before {
+    background: radial-gradient(circle at 50% 0%, rgba($orange, 0.15), transparent 70%);
+  }
+}
 
 .text-green { color: $green; }
 .btn-green { background-color: $green; border-color: $green; color: #10321c; }
-.training-card:has(.btn-green) { border-top-color: $green; }
-
+.training-card:has(.btn-green) {
+  border-top-color: $green;
+  &::before {
+    background: radial-gradient(circle at 50% 0%, rgba($green, 0.15), transparent 70%);
+  }
+}
 
 /* ADD THESE STYLES TO THE END OF YOUR DASHBOARD SCSS */
 

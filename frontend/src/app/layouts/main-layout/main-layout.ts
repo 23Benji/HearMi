@@ -1,6 +1,7 @@
 // frontend/src/app/layouts/main-layout/main-layout.ts
 
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common'; // <-- **** ADD THIS LINE ****
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 // 1. Just import the module itself. NO ICONS here.
@@ -10,6 +11,7 @@ import { LucideAngularModule } from 'lucide-angular';
   selector: 'app-main-layout',
   standalone: true,
   imports: [
+    CommonModule,
     RouterOutlet,
     RouterLink,
     RouterLinkActive,
@@ -20,5 +22,9 @@ import { LucideAngularModule } from 'lucide-angular';
   styleUrl: './main-layout.scss'   // I corrected the filename for you
 })
 export class MainLayoutComponent {
+isSidebarCollapsed = false;
 
+  toggleSidebar() {
+    this.isSidebarCollapsed = !this.isSidebarCollapsed;
+  }
 }

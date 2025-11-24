@@ -6,35 +6,39 @@
 
 <!-- Overall Stats -->
 <section class="summary-cards">
+  <!-- Total Sessions Card -->
   <div class="card summary-card">
-    <div class="icon-wrapper bg-purple">
-      <lucide-icon name="target" [size]="20"></lucide-icon>
-    </div>
-    <div class="text-wrapper">
+    <div class="card-header">
+      <div class="icon-wrapper bg-purple">
+        <lucide-icon name="target" [size]="20"></lucide-icon>
+      </div>
       <h4>Total Sessions</h4>
-      <p class="stat-value">8</p>
     </div>
+    <p class="stat-value">8</p>
   </div>
+
+  <!-- Overall Accuracy Card -->
   <div class="card summary-card">
-    <div class="icon-wrapper bg-cyan">
-      <lucide-icon name="award" [size]="20"></lucide-icon>
-    </div>
-    <div class="text-wrapper">
+    <div class="card-header">
+      <div class="icon-wrapper bg-cyan">
+        <lucide-icon name="award" [size]="20"></lucide-icon>
+      </div>
       <h4>Overall Accuracy</h4>
-      <p class="stat-value text-cyan">57.5%</p>
     </div>
+    <p class="stat-value text-cyan">57.5%</p>
   </div>
+
+  <!-- Total Correct Card -->
   <div class="card summary-card">
-    <div class="icon-wrapper bg-orange">
-      <lucide-icon name="trending-up" [size]="20"></lucide-icon>
-    </div>
-    <div class="text-wrapper">
+    <div class="card-header">
+      <div class="icon-wrapper bg-orange">
+        <lucide-icon name="trending-up" [size]="20"></lucide-icon>
+      </div>
       <h4>Total Correct</h4>
-      <p class="stat-value">23</p>
     </div>
+    <p class="stat-value">23</p>
   </div>
 </section>
-
 <!-- Training Modes -->
 <h2>Training Modes</h2>
 <section class="training-cards">

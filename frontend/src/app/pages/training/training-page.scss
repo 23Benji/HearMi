@@ -2,99 +2,176 @@
 
 .training-header {
   margin-bottom: 2rem;
-  h1 { font-size: 2.25rem; margin-bottom: 0.5rem; font-weight: 700; }
+  h1 { font-size: 2.5rem; margin-bottom: 0.5rem; font-weight: 700; }
   .subtitle { color: var(--secondary-text); font-size: 1.125rem; }
 }
 
+// === NEW STAT CARDS LAYOUT ===
 .session-stats {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1.5rem;
-  margin-bottom: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .stat-card {
-  // Glassmorphism effect
+  display: flex;
+  align-items: center; // This is key for perfect vertical alignment
+  gap: 0.75rem; // Slightly tighter gap
+  background-color: var(--card-background);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 0.75rem 1rem; // Reduced padding for a shorter card
+
+  .icon-wrapper {
+    // No changes needed here, it's already good.
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  // This is the new style for our simplified text block
+  .stat-text {
+    margin: 0; // Remove default paragraph margins
+    color: var(--secondary-text); // The label part is the secondary color
+    font-size: 0.9rem;
+    font-weight: 500;
+    white-space: nowrap; // Prevent text from wrapping
+
+    .value {
+      color: var(--primary-text); // The value part is the primary color
+      font-weight: 600; // Make the value bolder
+      margin-left: 0.5rem; // Add a little space between the label and value
+    }
+  }
+}
+
+// === NEW MAIN INTERACTION CARD ===
+.main-interaction-card {
+  position: relative; // Important for positioning the feedback pop-up
   background-color: rgba(28, 18, 61, 0.4);
   backdrop-filter: blur(10px);
   border: 1px solid var(--border-color-light);
-
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  span { font-weight: 700; }
-}
-
-.player-section {
+  border-radius: 24px;
+  padding: 2.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 3rem;
-  min-height: 200px;
+  gap: 2.5rem;
 }
 
 .play-button {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(135deg, var(--accent-blue), var(--accent-pink));
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-bottom: 1rem;
-  transition: transform 0.2s ease;
-  &:hover { transform: scale(1.1); } // More pronounced zoom for the main button
+  transition: all 0.2s ease;
+  // Subtle glow effect
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
 
-  .play-icon {
-    font-size: 2.5rem;
-    line-height: 1;
-    margin-left: 5px;
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.3);
   }
+
+  // Color variants for each mode
+  &.orange { background: radial-gradient(circle, #fdba74, #f97316); }
+  &.cyan { background: radial-gradient(circle, #67e8f9, #06b6d4); }
+  &.purple { background: radial-gradient(circle, #e9d5ff, #a855f7); }
+  &.green { background: radial-gradient(circle, #bbf7d0, #22c55e); }
 }
 
 .answer-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 1rem;
-  max-width: 900px;
-  margin: 0 auto 3rem auto;
+  width: 100%;
+  gap: 1.5rem;
 }
 
 .answer-button {
   padding: 1rem;
-  // Glassmorphism effect
-  background-color: rgba(28, 18, 61, 0.4);
-  backdrop-filter: blur(10px);
-  border: 1px solid var(--border-color-light);
-
-  color: var(--primary-text);
-  border-radius: 8px;
+  background-color: rgba(9, 4, 26, 0.5);
+  border: 1px solid var(--border-color);
+  color: var(--secondary-text);
+  border-radius: 12px;
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 
   &:hover {
-    transform: scale(1.05); // Zoom-in on hover
-    background-color: rgba(48, 36, 84, 0.6); // Light up on hover
+    transform: translateY(-4px);
+    background-color: var(--card-background);
+    color: var(--primary-text);
   }
 }
 
+// === NEW FEEDBACK POP-UP ===
+.feedback-popup {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 1.25rem 1.5rem;
+  background-color: rgba(28, 18, 61, 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-color-light);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 10;
+  animation: fadeInOut 2.5s ease-in-out forwards;
+
+  .message {
+    h4 { font-size: 1.125rem; margin-bottom: 0.25rem; }
+    p { font-size: 0.875rem; color: var(--secondary-text); }
+  }
+
+  &.correct { border-left: 4px solid var(--accent-green); .icon-wrapper { color: var(--accent-green); } }
+  &.incorrect { border-left: 4px solid var(--accent-pink); .icon-wrapper { color: var(--accent-pink); } }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.95); }
+  10%, 90% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+
+// === NEW SESSION CONTROLS ===
 .session-controls {
   display: flex;
   justify-content: center;
-  gap: 1.5rem;
+  gap: 1rem;
   margin-top: 2rem;
-  .btn { min-width: 180px; }
+  width: 100%;
 }
 
-// Glassy Button Styles
-.btn-blue { background-color: var(--accent-blue-glass); border: 1px solid var(--accent-blue); color: var(--accent-blue); }
-.btn-pink { background-color: var(--accent-pink-glass); border: 1px solid var(--accent-pink); color: var(--accent-pink); }
-.btn-orange { background-color: var(--accent-orange-glass); border: 1px solid var(--accent-orange); color: var(--accent-orange); }
-.btn-green { background-color: var(--accent-green-glass); border: 1px solid var(--accent-green); color: var(--accent-green); }
+.btn-reset {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--secondary-text);
+  &:hover { background-color: var(--card-background); }
+}
+
+.btn-save {
+  border: 1px solid;
+  font-weight: 600;
+  // Color variants
+  &.orange { background-color: #f97316; border-color: #f97316; color: white; }
+  &.cyan { background-color: #06b6d4; border-color: #06b6d4; color: white; }
+  &.purple { background-color: #a855f7; border-color: #a855f7; color: white; }
+  &.green { background-color: #22c55e; border-color: #22c55e; color: white; }
+}

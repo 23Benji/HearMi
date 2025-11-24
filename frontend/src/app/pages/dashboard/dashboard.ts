@@ -39,7 +39,16 @@ export class DashboardComponent {
 
   constructor(private router: Router) {}
 
+  onCardMouseMove(event: MouseEvent): void {
+    const card = event.currentTarget as HTMLElement;
+    // Get mouse position relative to the card's top-left corner
+    const { offsetX, offsetY } = event;
+    // Update the CSS variables on the card element
+    card.style.setProperty('--x', `${offsetX}px`);
+    card.style.setProperty('--y', `${offsetY}px`);
+  }
   startTraining(mode: string): void {
     this.router.navigate(['/training', mode]);
   }
+
 }

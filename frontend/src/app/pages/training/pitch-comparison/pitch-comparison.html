@@ -1,27 +1,61 @@
 <div class="training-header">
   <h1>Pitch Comparison</h1>
-  <p class="subtitle">Is the second note higher, lower, or the same?</p>
+  <p class="subtitle">Listen to two notes and compare their pitch</p>
 </div>
 
 <section class="session-stats">
-  <div class="stat-card">Score: <span>{{score}} / {{questions}}</span></div>
-  <div class="stat-card">Accuracy: <span>{{accuracy}}%</span></div>
-  <div class="stat-card">Streak: <span>{{streak}}</span></div>
-  <div class="stat-card">Questions: <span>{{questions}}</span></div>
+  <div class="stat-card">
+    <div class="icon-wrapper" style="background-color: var(--accent-blue-glass); color: var(--accent-blue);">
+      <lucide-icon name="target" [size]="20"></lucide-icon>
+    </div>
+    <p class="stat-text">Score <span class="value">{{score}} / {{questions}}</span></p>
+  </div>
+
+  <div class="stat-card">
+    <div class="icon-wrapper" style="background-color: var(--accent-pink-glass); color: var(--accent-pink);">
+      <lucide-icon name="award" [size]="20"></lucide-icon>
+    </div>
+    <p class="stat-text">Accuracy <span class="value">{{accuracy}}%</span></p>
+  </div>
+
+  <div class="stat-card">
+    <div class="icon-wrapper" style="background-color: var(--accent-orange-glass); color: var(--accent-orange);">
+      <lucide-icon name="flame" [size]="20"></lucide-icon>
+    </div>
+    <p class="stat-text">Streak <span class="value">{{streak}}</span></p>
+  </div>
+
+  <div class="stat-card">
+    <div class="icon-wrapper" style="background-color: var(--accent-green-glass); color: var(--accent-green);">
+      <lucide-icon name="list-checks" [size]="20"></lucide-icon>
+    </div>
+    <p class="stat-text">Progress <span class="value">{{questions}} Questions</span></p>
+  </div>
 </section>
 
-<section class="player-section">
-  <button class="play-button" (click)="playChallenge()">
+<div class="main-interaction-card">
+  <button class="play-button orange" (click)="playChallenge()" [class.inactive]="isAwaitingAnswer || showFeedback">
     <span class="play-icon">▶</span>
   </button>
-  <p>Click to play the two notes</p>
-</section>
 
-<section class="answer-grid" style="grid-template-columns: repeat(3, 1fr); max-width: 500px;">
-  <button class="answer-button" *ngFor="let option of options" (click)="checkAnswer(option)">{{option}}</button>
-</section>
+  @if (showFeedback) {
+    <div class="feedback-popup" [ngClass]="{ 'correct': isCorrect, 'incorrect': !isCorrect }">
+      <div class="icon-wrapper"><lucide-icon [name]="isCorrect ? 'check-circle-2' : 'x-circle'" [size]="24"></lucide-icon></div>
+      <div class="message">
+        <h4>{{ isCorrect ? 'Correct' : 'Incorrect' }}</h4>
+        <p>{{ feedbackMessage }}</p>
+      </div>
+    </div>
+  }
 
-<section class="session-controls">
-  <button class="btn" (click)="resetSession()">Reset Session</button>
-  <button class="btn btn-orange" (click)="saveSession()">Save & New Session</button>
-</section>
+  <div class="answer-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <button class="answer-button" (click)="checkAnswer('Higher')" [disabled]="!isAwaitingAnswer"><lucide-icon name="arrow-up" [size]="24"></lucide-icon>Higher</button>
+    <button class="answer-button" (click)="checkAnswer('Same')" [disabled]="!isAwaitingAnswer"><lucide-icon name="minus" [size]="24"></lucide-icon>Same</button>
+    <button class="answer-button" (click)="checkAnswer('Lower')" [disabled]="!isAwaitingAnswer"><lucide-icon name="arrow-down" [size]="24"></lucide-icon>Lower</button>
+  </div>
+</div>
+
+<div class="session-controls">
+  <button class="btn btn-reset" (click)="resetSession()">Reset</button>
+  <button class="btn btn-save orange" (click)="saveSession()">Save & New Session</button>
+</div>
