@@ -1,8 +1,37 @@
-POST http://localhost:3000/api/results
+### Registrierung
+POST http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-  "user_name": "Anna",
+  "email": "test@example.com",
+  "password": "123456"
+}
+
+### Login
+POST http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "123456"
+}
+
+###
+# Wenn du einmal eingeloggt hast, kopiere den "token" aus der Login-Antwort
+# und trage ihn hier bei @token ein:
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJkYzM3NDlkZS00MzhlLTRkZWItYjNlMS03NWU4NzFjMWZhNjYiLCJpYXQiOjE3NjM5NzE1NzEsImV4cCI6MTc2Mzk3ODc3MX0.vsajrEursx851gyYx880WNKpuOYudHVQi24QC3qcyBo
+
+### Ergebnis speichern
+POST http://localhost:3000/api/results
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
   "exercise_id": 1,
   "score": 95
 }
+
+### Eigene Ergebnisse
+GET http://localhost:3000/api/results/my
+Authorization: Bearer {{token}}
