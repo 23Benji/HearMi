@@ -64,21 +64,36 @@
   gap: 2.5rem;
 }
 
+// In frontend/src/app/pages/training/training-page.scss
+
 .play-button {
   width: 120px;
   height: 120px;
   border-radius: 50%;
   border: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.685);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   transition: all 0.2s ease;
-  // Subtle glow effect
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.3);
 
-  &:hover {
+  // VVV THIS IS THE NEW/UPDATED PART VVV
+  .play-icon {
+    font-size: 4rem; // Increased from 3rem to make it significantly bigger
+    line-height: 1;    // Keeps it vertically centered
+    margin-left: 12px; // Adjusted for better optical centering of the larger icon
+  }
+
+  // State for when it's not the user's turn to play
+  &.inactive {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: scale(0.95);
+  }
+
+  &:not(.inactive):hover {
     transform: scale(1.05);
     box-shadow: 0 0 30px 5px rgba(0, 0, 0, 0.3);
   }
@@ -174,4 +189,37 @@
   &.cyan { background-color: #06b6d4; border-color: #06b6d4; color: white; }
   &.purple { background-color: #a855f7; border-color: #a855f7; color: white; }
   &.green { background-color: #22c55e; border-color: #22c55e; color: white; }
+}
+
+// In frontend/src/app/pages/training/training-page.scss
+// ... all your existing styles ...
+
+// VVV ADD THIS MEDIA QUERY AT THE END VVV
+@media (max-width: 768px) {
+  .training-header h1 {
+    font-size: 2rem;
+  }
+
+  .session-stats {
+    // Show 2 stats per row on mobile, instead of 4
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .answer-grid {
+    // For grids with many buttons, force fewer columns to prevent tiny buttons
+    &[style*="repeat(6, 1fr)"] { // Targets the Single Note grid
+      grid-template-columns: repeat(3, 1fr);
+    }
+    &[style*="repeat(4, 1fr)"] { // Targets the Single Note grid (new layout)
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .main-interaction-card {
+    padding: 1.5rem;
+  }
+
+  .session-controls {
+    flex-direction: column; // Stack reset/save buttons
+  }
 }

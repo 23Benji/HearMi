@@ -25,7 +25,23 @@ import {
   XCircle,
   ArrowUp,
   ArrowDown,
-  Minus
+  Minus,
+  Menu,
+  X,
+  Cog,
+  Upload,
+  SlidersHorizontal,
+  ShieldCheck,
+  AlertTriangle,
+  RotateCw,
+  Trash2,
+  UserCircle,
+  Piano,
+  AudioWaveform,
+  Guitar,
+  SignalLow,
+  SignalMedium,
+  Signal
 } from 'lucide-angular';
 
 bootstrapApplication(AppComponent, {
@@ -34,7 +50,7 @@ bootstrapApplication(AppComponent, {
 
     importProvidersFrom(
       // VVV AND CORRECTED MODULE NAME HERE VVV
-      LucideAngularModule.pick({ // This was also incorrect
+      LucideAngularModule.pick({
         LayoutDashboard,
         Music,
         Music2,
@@ -51,7 +67,23 @@ bootstrapApplication(AppComponent, {
         XCircle,
         ArrowUp,
         ArrowDown,
-        Minus
+        Minus,
+        Menu,
+        X,
+        Cog,
+        Upload,
+        SlidersHorizontal,
+        ShieldCheck,
+        AlertTriangle,
+        RotateCw,
+        Trash2,
+        UserCircle,
+        Piano,
+        AudioWaveform,
+        Guitar,
+        SignalLow,
+        SignalMedium,
+        Signal
       })
     )
   ]

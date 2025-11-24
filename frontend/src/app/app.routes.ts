@@ -9,11 +9,11 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout';
 import { DashboardComponent } from './pages/dashboard/dashboard';
 import { SingleNoteComponent } from './pages/training/single-note/single-note';
 import { ChordRecognitionComponent } from './pages/training/chord-recognition/chord-recognition';
-
-// vvv ADD THESE TWO IMPORTS vvv
 import { PitchComparisonComponent } from './pages/training/pitch-comparison/pitch-comparison';
 import { IntervalTrainingComponent } from './pages/training/interval-training/interval-training';
-// ^^^ END OF ADDED IMPORTS ^^^
+import { SettingsComponent } from './pages/settings/settings'; // <-- IMPORT THE NEW COMPONENT
+
+
 
 export const routes: Routes = [
 
@@ -31,13 +31,11 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'settings', component: SettingsComponent },
       { path: 'training/single-note', component: SingleNoteComponent },
       { path: 'training/chord-recognition', component: ChordRecognitionComponent },
-
-      // vvv ADD THESE TWO ROUTES vvv
       { path: 'training/pitch-comparison', component: PitchComparisonComponent },
       { path: 'training/interval-training', component: IntervalTrainingComponent },
-      // ^^^ END OF ADDED ROUTES ^^^
 
       // If the user navigates to the base URL (e.g., http://localhost:4200),
       // redirect them straight to the dashboard.

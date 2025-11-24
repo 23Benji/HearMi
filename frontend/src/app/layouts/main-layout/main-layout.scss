@@ -11,139 +11,125 @@
 }
 
 .sidebar {
-  width: 215px;
-  backdrop-filter: blur(15px);
+  width: 240px;
+  background-color: rgba(9, 4, 26, 0.8);
+  backdrop-filter: blur(12px);
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  flex-shrink: 0; // Prevents the sidebar from shrinking
+  flex-shrink: 0;
   border-right: 1px solid var(--border-color);
+  transition: transform 0.3s ease-in-out;
 }
+
+// --- Desktop Styles ---
 
 .sidebar-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 2rem;
-  .logo-icon { font-size: 2rem; }
-  .logo-text { font-size: 1.5rem; margin: 0; }
+  padding: 0.5rem;
+  margin-bottom: 1.5rem;
 }
-
-.sidebar-nav {
-  flex-grow: 1; // Pushes the footer down
-}
-
-.nav-section-title {
-  color: var(--secondary-text);
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-top: 1.5rem;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.5px;
-}
-
-.nav-link {
-  display: block;
-  color: var(--secondary-text);
-  text-decoration: none;
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  margin-bottom: 0.25rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
-
-  &:hover {
-    background-color: var(--background-secondary);
-    color: var(--primary-text);
-  }
-
-  // This class is automatically added by routerLinkActive
-  &.active {
-    background-color: var(--background-secondary);
-    color: var(--primary-text);
-    font-weight: 600;
-  }
-}
-
-.sidebar-footer {
-  .user-profile {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  .user-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background-color: var(--color-blue);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 600;
-  }
-  .user-info {
-    display: flex;
-    flex-direction: column;
-  }
-  .user-name {
-    font-weight: 600;
-  }
-  .user-email {
-    font-size: 0.8rem;
-    color: var(--secondary-text);
-  }
-}
-
-.main-content {
-  flex-grow: 1; // Takes up the remaining space
-  padding: 2rem 3rem;
-  overflow-y: auto; // Allows content to scroll if it's too long
-}
-.nav-link {
-  // ... other styles
-  lucide-icon {
-    // Vertically align icons with text
-    vertical-align: middle;
-  }
-}
-
-.logout-link {
-  @extend .nav-link;
-  lucide-icon {
-    vertical-align: middle;
-  }
-}
-
-// In main-layout.component.scss
 
 .logo-wrapper {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 300px;  // This sets the container width
-  height: 100px; // This sets the container height
+  width: 220px;
+  height: 100px;
   text-decoration: none;
   transition: transform 0.2s ease;
   &:hover {
     transform: scale(1.05);
   }
-
-  // VVV ADD THIS NEW BLOCK VVV
   img {
-    width: 100%;      // Tells the image to be as wide as the container (48px)
-    height: 100%;     // Tells the image to be as tall as the container (48px)
-    padding: 8px;     // Adds some space so the logo doesn't touch the edges
-    box-sizing: border-box; // Ensures padding is included in the size, not added on
-    object-fit: contain; // IMPORTANT: Scales the image to fit without stretching
+    width: 100%;
+    height: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+    object-fit: contain;
+  }
+}
+
+.sidebar-nav {
+  flex-grow: 1;
+  overflow-y: auto; // Allows nav to scroll if content is too tall
+}
+
+.nav-section-title {
+  color: var(--secondary-text);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--secondary-text);
+  text-decoration: none;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 0.25rem;
+  font-weight: 500;
+  transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+  lucide-icon {
+    vertical-align: middle;
+  }
+  &:hover {
+    color: var(--primary-text);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  &.active {
+    color: var(--primary-text);
+    font-weight: 600;
+    background-color: var(--card-background);
   }
 }
 
 .sidebar-footer {
-  // New layout for footer
   display: flex;
   align-items: center;
-  justify-content: space-between; // This pushes items to opposite ends
+  justify-content: space-between;
   border-top: 1px solid var(--border-color);
   padding-top: 1.5rem;
+  gap: 1rem;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.user-info {
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  .user-name {
+    font-weight: 600;
+  }
+  .user-email {
+    font-size: 0.7rem;
+    color: var(--secondary-text);
+  }
 }
 
 .logout-button {
@@ -151,10 +137,116 @@
   padding: 0.5rem;
   border-radius: 6px;
   display: flex;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
   &:hover {
     color: var(--primary-text);
     background-color: rgba(255, 255, 255, 0.05);
+    transform: scale(1.1);
   }
 }
 
+.main-content {
+  flex-grow: 1;
+  padding: 2rem 3rem;
+  overflow-y: auto;
+  position: relative;
+}
+
+// By default, mobile-only buttons are hidden
+.open-sidebar-btn, .close-sidebar-btn {
+  display: none;
+}
+
+// --- MOBILE RESPONSIVE STYLES ---
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 1000;
+    transform: translateX(-100%);
+    width: 85vw;
+    max-width: 320px;
+  }
+
+  .sidebar.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+  }
+
+  .open-sidebar-btn, .close-sidebar-btn {
+    display: block;
+    background: none;
+    border: none;
+    color: var(--primary-text);
+    cursor: pointer;
+  }
+
+  .open-sidebar-btn {
+    position: absolute;
+    top: 1.5rem;
+    left: 1.5rem;
+    z-index: 50;
+  }
+
+  .close-sidebar-btn {
+    position: static;
+  }
+
+  // =======================================================
+  // VVV THIS IS THE FIX VVV
+  // The 'display: none;' rule for the footer was here and has been removed.
+  // The footer will now be visible on mobile by default.
+  // =======================================================
+
+  .sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .sidebar-overlay.overlay-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .main-content {
+    padding: 5rem 1.5rem 2rem 1.5rem;
+  }
+}
+
+// ... At the end of the file, find .logout-button and add .settings-button
+
+.logout-button, .settings-button { // <-- Add .settings-button here
+  color: var(--secondary-text);
+  padding: 0.5rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  &:hover {
+    color: var(--primary-text);
+    background-color: rgba(255, 255, 255, 0.05);
+    transform: scale(1.1);
+  }
+}
