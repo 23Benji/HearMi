@@ -55,8 +55,6 @@ bootstrapApplication(AppComponent, {
 
     importProvidersFrom(
       LucideAngularModule.pick({
-      // VVV AND CORRECTED MODULE NAME HERE VVV
-      LucideAngularModule.pick({
         LayoutDashboard,
         Music,
         Music2,
