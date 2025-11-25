@@ -1,25 +1,42 @@
-// frontend/src/app/pages/login/login.component.ts
+// frontend/src/app/pages/login/login.ts
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router'; // Import Router and RouterLink
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterLink,FormsModule], // Add RouterLink here
+  imports: [CommonModule, RouterLink, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.scss'
 })
 export class LoginComponent {
 
-  constructor(private router: Router) {}
+  email = '';
+  password = '';
+  error = '';
+
+  constructor(
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
   login() {
-    // This is where you will eventually call your authentication service (Supabase)
-    console.log('Login attempt...');
+    this.error = '';
 
-    // For now, we'll just simulate a successful login and navigate to the dashboard
-    this.router.navigate(['/dashboard']);
+    this.auth.login(this.email, this.password).subscribe({
+      next: res => {
+        // Token speichern
+        this.auth.saveToken(res.token);
+        // Nach erfolgreichem Login weiterleiten
+        this.router.navigate(['/dashboard']);
+      },
+      error: err => {
+        this.error = err?.error?.error ?? 'Login fehlgeschlagen';
+        console.error(err);
+      }
+    });
   }
 }

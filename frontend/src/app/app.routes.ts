@@ -1,8 +1,5 @@
-// frontend/src/app/app.routes.ts
+//import { Routes } from '@angular/router';
 
-import { Routes } from '@angular/router';
-
-// Import all the components your routes will use
 import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout';
@@ -14,21 +11,16 @@ import { IntervalTrainingComponent } from './pages/training/interval-training/in
 import { SettingsComponent } from './pages/settings/settings'; // <-- IMPORT THE NEW COMPONENT
 
 
+import { authGuard } from './guards/auth.guard';   // <--- NEU
 
 export const routes: Routes = [
-
-  // --- AUTHENTICATION ROUTES ---
-  // These routes load directly and DO NOT use the main sidebar layout.
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-
-  // --- MAIN APPLICATION ROUTES ---
-  // These routes are children of the MainLayout,
-  // meaning they will always be displayed WITH the sidebar.
   {
-    path: '', // This acts as a parent for all main app routes
+    path: '',
     component: MainLayoutComponent,
+    canActivate: [authGuard],          // <--- HIER GUARD DRAN
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'settings', component: SettingsComponent },
@@ -43,8 +35,5 @@ export const routes: Routes = [
     ]
   },
 
-  // --- WILDCARD ROUTE ---
-  // If the user types a URL that doesn't match anything above,
-  // redirect them to the login page. This should be the VERY LAST route.
   { path: '**', redirectTo: 'login' }
 ];

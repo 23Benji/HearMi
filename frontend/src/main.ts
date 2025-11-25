@@ -1,14 +1,14 @@
-// frontend/src/main.ts
-
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideRouter } from '@angular/router';
 import { importProvidersFrom } from '@angular/core';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { AppComponent } from './app/app';
 import { routes } from './app/app.routes';
 
-// VVV CORRECTED MODULE NAME HERE VVV
+import { authInterceptor } from './app/interceptors/auth.interceptor';
+
 import {
-  LucideAngularModule, // This was incorrectly named 'LucideIconsModule' before
+  LucideAngularModule,
   LayoutDashboard,
   Music,
   Music2,
@@ -44,11 +44,17 @@ import {
   Signal
 } from 'lucide-angular';
 
+
 bootstrapApplication(AppComponent, {
   providers: [
     provideRouter(routes),
 
+    provideHttpClient(
+      withInterceptors([authInterceptor])
+    ),
+
     importProvidersFrom(
+      LucideAngularModule.pick({
       // VVV AND CORRECTED MODULE NAME HERE VVV
       LucideAngularModule.pick({
         LayoutDashboard,

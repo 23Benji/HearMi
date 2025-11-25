@@ -1,23 +1,55 @@
-// frontend/src/app/pages/register/register.component.ts
+// frontend/src/app/pages/register/register.ts
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router'; // Import Router and RouterLink
+import { Router, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [RouterLink], // Add RouterLink here
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
 export class RegisterComponent {
 
-  constructor(private router: Router) {}
+  email = '';
+  password = '';
+  confirmPassword = '';
+
+  error = '';
+  success = '';
+
+  constructor(
+    private router: Router,
+    private auth: AuthService
+  ) {}
 
   register() {
-    // This is where you will call your authentication service to sign up the user
-    console.log('Registering user...');
+    this.error = '';
+    this.success = '';
 
-    // For now, we'll simulate a successful registration and navigate to the dashboard
-    this.router.navigate(['/dashboard']);
+    if (!this.email || !this.password || !this.confirmPassword) {
+      this.error = 'Bitte alle Felder ausfüllen.';
+      return;
+    }
+
+    if (this.password !== this.confirmPassword) {
+      this.error = 'Die Passwörter stimmen nicht überein.';
+      return;
+    }
+
+    this.auth.register(this.email, this.password).subscribe({
+      next: () => {
+        this.success = 'Konto erstellt. Du kannst dich jetzt einloggen.';
+        // Direkt zum Login weiterleiten
+        this.router.navigate(['/login']);
+      },
+      error: err => {
+        this.error = err?.error?.error ?? 'Registrierung fehlgeschlagen.';
+        console.error(err);
+      }
+    });
   }
 }

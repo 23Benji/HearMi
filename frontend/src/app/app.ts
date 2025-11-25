@@ -1,16 +1,12 @@
-// frontend/src/app/app.component.ts
-
+// frontend/src/app/app.ts
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router'; // <-- 1. IMPORT IT
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    RouterOutlet // <-- 2. ADD IT BACK TO THE IMPORTS ARRAY
-  ],
-  template: `<router-outlet></router-outlet>`,
+  imports: [RouterOutlet],
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
-export class AppComponent {
-  title = 'frontend';
-}
+export class AppComponent {}

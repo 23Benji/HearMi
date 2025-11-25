@@ -1,34 +1,62 @@
-<!-- frontend/src/app/pages/register/register.component.html -->
+<!-- frontend/src/app/pages/register/register.html -->
 <div class="auth-container">
   <div class="auth-card">
     <div class="logo-container">
       <h1>HearMi</h1>
     </div>
-    <h2>Create an Account</h2>
-    <p>Start your ear training journey today</p>
+    <h2>Create Account</h2>
+    <p>Sign up to start your training</p>
 
     <form (ngSubmit)="register()">
-
-      <div class="form-group">
-        <label for="username">Username</label>
-        <input id="username" type="text" placeholder="Your username" />
-      </div>
-
       <div class="form-group">
         <label for="email">Email</label>
-        <input id="email" type="email" placeholder="you@example.com" />
+        <input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          [(ngModel)]="email"
+          name="email"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input id="password" type="password" placeholder="••••••••" />
+        <input
+          id="password"
+          type="password"
+          placeholder="••••••••"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          id="confirmPassword"
+          type="password"
+          placeholder="••••••••"
+          [(ngModel)]="confirmPassword"
+          name="confirmPassword"
+          required
+        />
       </div>
 
       <button type="submit" class="auth-button">Sign Up</button>
     </form>
 
+    <p *ngIf="error" class="error">
+      {{ error }}
+    </p>
+    <p *ngIf="success" class="success">
+      {{ success }}
+    </p>
+
     <p class="switch-auth-link">
-      Already have an account? <a routerLink="/login">Sign in</a>
+      Already have an account?
+      <a routerLink="/login">Sign in</a>
     </p>
   </div>
 </div>

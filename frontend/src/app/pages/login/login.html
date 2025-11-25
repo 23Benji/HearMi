@@ -1,8 +1,6 @@
-<!-- frontend/src/app/pages/login/login.component.html -->
 <div class="auth-container">
   <div class="auth-card">
     <div class="logo-container">
-      <!-- You can add your actual logo SVG here later -->
       <h1>HearMi</h1>
     </div>
     <h2>Welcome Back</h2>
@@ -11,16 +9,34 @@
     <form (ngSubmit)="login()">
       <div class="form-group">
         <label for="email">Email</label>
-        <input id="email" type="email" placeholder="you@example.com" />
+        <input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          [(ngModel)]="email"
+          name="email"
+          required
+        />
       </div>
 
       <div class="form-group">
         <label for="password">Password</label>
-        <input id="password" type="password" placeholder="••••••••" />
+        <input
+          id="password"
+          type="password"
+          placeholder="••••••••"
+          [(ngModel)]="password"
+          name="password"
+          required
+        />
       </div>
 
       <button type="submit" class="auth-button">Sign In</button>
     </form>
+
+    <p *ngIf="error" class="error">
+      {{ error }}
+    </p>
 
     <p class="switch-auth-link">
       Don't have an account? <a routerLink="/register">Sign up</a>
