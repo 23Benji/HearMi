@@ -1,4 +1,4 @@
-<!-- frontend/src/app/layouts/main-layout/main-layout.component.html -->
+<!-- frontend/src/app/layouts/main-layout/main-layout.html -->
 
 <div class="app-container">
   <aside class="sidebar" [ngClass]="{ 'sidebar-open': isSidebarOpen }">
@@ -20,19 +20,24 @@
         <lucide-icon name="layout-dashboard" [size]="20"></lucide-icon>
         <span>Dashboard</span>
       </a>
+
       <p class="nav-section-title">TRAINING MODES</p>
+
       <a class="nav-link" routerLink="/training/single-note" routerLinkActive="active" (click)="isSidebarOpen = false">
         <lucide-icon name="music" [size]="20"></lucide-icon>
         <span>Single Note</span>
       </a>
+
       <a class="nav-link" routerLink="/training/chord-recognition" routerLinkActive="active" (click)="isSidebarOpen = false">
         <lucide-icon name="music-2" [size]="20"></lucide-icon>
         <span>Chord Recognition</span>
       </a>
+
       <a class="nav-link" routerLink="/training/pitch-comparison" routerLinkActive="active" (click)="isSidebarOpen = false">
         <lucide-icon name="git-compare" [size]="20"></lucide-icon>
         <span>Pitch Comparison</span>
       </a>
+
       <a class="nav-link" routerLink="/training/interval-training" routerLinkActive="active" (click)="isSidebarOpen = false">
         <lucide-icon name="waves" [size]="20"></lucide-icon>
         <span>Interval Training</span>
@@ -47,12 +52,14 @@
           <span class="user-name">UserName</span><br>
         </div>
       </div>
+
       <a routerLink="/settings" class="settings-button">
         <lucide-icon name="cog" [size]="20"></lucide-icon>
       </a>
-      <a href="/login" class="logout-button">
+
+      <button type="button" class="logout-button" (click)="logout()">
         <lucide-icon name="log-out" [size]="20"></lucide-icon>
-      </a>
+      </button>
     </div>
   </aside>
 
@@ -61,10 +68,14 @@
     <button class="open-sidebar-btn" (click)="toggleSidebar()">
       <lucide-icon name="menu" [size]="24"></lucide-icon>
     </button>
+
     <router-outlet></router-outlet>
   </main>
 
   <!-- OVERLAY -->
-  <div class="sidebar-overlay" [ngClass]="{ 'overlay-visible': isSidebarOpen }" (click)="toggleSidebar()"></div>
-
+  <div
+    class="sidebar-overlay"
+    [ngClass]="{ 'overlay-visible': isSidebarOpen }"
+    (click)="toggleSidebar()">
+  </div>
 </div>

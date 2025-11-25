@@ -1,38 +1,54 @@
+// frontend/src/app/app.routes.ts
+
 import { Routes } from '@angular/router';
+
 import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
+
 import { MainLayoutComponent } from './layouts/main-layout/main-layout';
 import { DashboardComponent } from './pages/dashboard/dashboard';
+import { SettingsComponent } from './pages/settings/settings';
+
 import { SingleNoteComponent } from './pages/training/single-note/single-note';
 import { ChordRecognitionComponent } from './pages/training/chord-recognition/chord-recognition';
 import { PitchComparisonComponent } from './pages/training/pitch-comparison/pitch-comparison';
 import { IntervalTrainingComponent } from './pages/training/interval-training/interval-training';
-import { SettingsComponent } from './pages/settings/settings'; // <-- IMPORT THE NEW COMPONENT
 
-
-import { authGuard } from './guards/auth.guard';   // <--- NEU
+import { authGuard } from './guards/auth.guard';
+import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
+  // --- AUTH ROUTES (nur für NICHT eingeloggte User) ---
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [guestGuard]
+  },
+  {
+    path: 'register',
+    component: RegisterComponent,
+    canActivate: [guestGuard]
+  },
 
+  // --- HAUPT-APP (nur für EINGELOGGTE User) ---
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [authGuard],          // <--- HIER GUARD DRAN
+    canActivate: [authGuard],
     children: [
       { path: 'dashboard', component: DashboardComponent },
       { path: 'settings', component: SettingsComponent },
+
       { path: 'training/single-note', component: SingleNoteComponent },
       { path: 'training/chord-recognition', component: ChordRecognitionComponent },
       { path: 'training/pitch-comparison', component: PitchComparisonComponent },
       { path: 'training/interval-training', component: IntervalTrainingComponent },
 
-      // If the user navigates to the base URL (e.g., http://localhost:4200),
-      // redirect them straight to the dashboard.
+      // Base-URL → Dashboard
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
     ]
   },
 
+  // --- FALLBACK ---
   { path: '**', redirectTo: 'login' }
 ];
