@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="img/HearMi.svg" alt="HearMi Logo" width="400"/>
+  <img src="frontend/src/assets/images/HearMi.svg" alt="HearMi Logo" width="400"/>
 </p>
 
 # Interactive Ear Training Application
