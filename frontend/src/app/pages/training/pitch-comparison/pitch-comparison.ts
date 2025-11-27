@@ -1,6 +1,11 @@
+// frontend/src/app/pages/training/pitch-comparison/pitch-comparison.ts
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
+
+// 1. Import the AudioService
+import { AudioService } from '../../../services/audio';
 
 @Component({
   selector: 'app-pitch-comparison',
@@ -15,10 +20,14 @@ export class PitchComparisonComponent implements OnInit {
   isAwaitingAnswer = false;
 
   options = ['Higher', 'Same', 'Lower'];
-  private note1: number | null = null; private note2: number | null = null;
-  private correctAnswer: string | null = null; private difference = 0;
+  private note1: number | null = null;
+  private note2: number | null = null;
+  private correctAnswer: string | null = null;
+  private difference = 0;
 
-  constructor() {}
+  // 2. Inject the AudioService in the constructor
+  constructor(private audioService: AudioService) {}
+
   ngOnInit(): void { this.generateNewQuestion(); }
 
   generateNewQuestion(): void {
@@ -41,9 +50,11 @@ export class PitchComparisonComponent implements OnInit {
   }
 
   playChallenge(): void {
-    if (this.isAwaitingAnswer || this.showFeedback) return;
-    console.log('Playing challenge...');
-    // TODO: Call your Audio Service here.
+    if (this.isAwaitingAnswer || this.showFeedback || this.note1 === null || this.note2 === null) return;
+
+    // 3. Replace the console.log with a call to our service's new method
+    this.audioService.playNoteComparison(this.note1, this.note2);
+
     this.isAwaitingAnswer = true;
   }
 

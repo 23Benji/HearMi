@@ -236,6 +236,8 @@
 // ... At the end of the file, find .logout-button and add .settings-button
 
 .logout-button, .settings-button { // <-- Add .settings-button here
+  background: none;
+  border: none;
   color: var(--secondary-text);
   padding: 0.5rem;
   border-radius: 6px;
@@ -243,6 +245,7 @@
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  cursor: pointer;
   flex-shrink: 0;
   &:hover {
     color: var(--primary-text);

@@ -1,6 +1,11 @@
+// frontend/src/app/pages/training/single-note/single-note.ts
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
+
+// 1. Import the new AudioService
+import { AudioService } from '../../../services/audio';
 
 @Component({
   selector: 'app-single-note',
@@ -23,7 +28,9 @@ export class SingleNoteComponent implements OnInit {
   notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   correctAnswer: string | null = null;
 
-  constructor() {}
+  // 2. "Inject" the AudioService in the constructor.
+  // Angular's dependency injection system will automatically provide it.
+  constructor(private audioService: AudioService) {}
 
   ngOnInit(): void {
     this.generateNewQuestion();
@@ -36,15 +43,17 @@ export class SingleNoteComponent implements OnInit {
   }
 
   playChallenge(): void {
-    if (this.isAwaitingAnswer || this.showFeedback) return; // Prevent re-playing
-    console.log(`Playing note: ${this.correctAnswer}`);
-    // TODO: Call your Audio Service to play the note.
-    this.isAwaitingAnswer = true; // Enable answer buttons
+    if (this.isAwaitingAnswer || this.showFeedback || !this.correctAnswer) return;
+
+    // 3. Replace the console.log with a call to our new service!
+    this.audioService.playNoteByName(this.correctAnswer);
+
+    this.isAwaitingAnswer = true;
   }
 
   checkAnswer(selectedNote: string): void {
-    if (!this.isAwaitingAnswer) return; // Prevent answering before playing
-    this.isAwaitingAnswer = false; // Disable answer buttons immediately
+    if (!this.isAwaitingAnswer) return;
+    this.isAwaitingAnswer = false;
     this.questions++;
 
     if (selectedNote === this.correctAnswer) {
@@ -65,7 +74,7 @@ export class SingleNoteComponent implements OnInit {
     this.showFeedback = true;
     setTimeout(() => {
       this.showFeedback = false;
-      this.generateNewQuestion(); // Prepare next question after feedback disappears
+      this.generateNewQuestion();
     }, 2500);
   }
 

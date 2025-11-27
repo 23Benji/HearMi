@@ -1,6 +1,11 @@
+// frontend/src/app/pages/training/chord-recognition/chord-recognition.ts
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
+
+// 1. Import the AudioService
+import { AudioService } from '../../../services/audio';
 
 @Component({
   selector: 'app-chord-recognition',
@@ -17,7 +22,8 @@ export class ChordRecognitionComponent implements OnInit {
   chords = ['Major', 'Minor', 'Dominant 7', 'Sus4', 'Power Chord'];
   correctAnswer: string | null = null;
 
-  constructor() {}
+  // 2. Inject the AudioService in the constructor
+  constructor(private audioService: AudioService) {}
 
   ngOnInit(): void {
     this.generateNewQuestion();
@@ -30,9 +36,11 @@ export class ChordRecognitionComponent implements OnInit {
   }
 
   playChallenge(): void {
-    if (this.isAwaitingAnswer || this.showFeedback) return;
-    console.log(`Playing chord: ${this.correctAnswer}`);
-    // TODO: Call your Audio Service here.
+    if (this.isAwaitingAnswer || this.showFeedback || !this.correctAnswer) return;
+
+    // 3. Replace the console.log with a call to our service's new method
+    this.audioService.playChordByName(this.correctAnswer);
+
     this.isAwaitingAnswer = true;
   }
 

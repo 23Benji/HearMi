@@ -1,6 +1,11 @@
+// frontend/src/app/pages/training/interval-training/interval-training.ts
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
+
+// 1. Import the AudioService
+import { AudioService } from '../../../services/audio';
 
 @Component({
   selector: 'app-interval-training',
@@ -17,7 +22,9 @@ export class IntervalTrainingComponent implements OnInit {
   intervals = ['Unison', 'm2', 'M2', 'm3', 'M3', 'P4', 'Tritone', 'P5', 'm6', 'M6', 'm7', 'M7', 'Octave'];
   correctAnswer: string | null = null;
 
-  constructor() {}
+  // 2. Inject the AudioService in the constructor
+  constructor(private audioService: AudioService) {}
+
   ngOnInit(): void { this.generateNewQuestion(); }
 
   generateNewQuestion(): void {
@@ -27,9 +34,11 @@ export class IntervalTrainingComponent implements OnInit {
   }
 
   playChallenge(): void {
-    if (this.isAwaitingAnswer || this.showFeedback) return;
-    console.log(`Playing interval: ${this.correctAnswer}`);
-    // TODO: Call your Audio Service here.
+    if (this.isAwaitingAnswer || this.showFeedback || !this.correctAnswer) return;
+
+    // 3. Call the new, enhanced method from our service
+    this.audioService.playIntervalHarmonicAndMelodic(this.correctAnswer);
+
     this.isAwaitingAnswer = true;
   }
 
