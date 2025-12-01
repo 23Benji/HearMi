@@ -1,0 +1,11 @@
+[build]
+  # This is where Angular outputs the files.
+  # Since your project is named 'frontend', it usually puts it here:
+  publish = "dist/frontend/browser"
+  command = "npm run build"
+
+[[redirects]]
+  # This fixes the "Page Not Found" on refresh issue
+  from = "/*"
+  to = "/index.html"
+  status = 200
