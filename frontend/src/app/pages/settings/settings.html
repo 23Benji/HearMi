@@ -37,26 +37,33 @@
 
   <div class="form-group">
     <label for="username">Username</label>
-    <input type="text" id="username" [(ngModel)]="username" disabled>
+    <input type="text" id="username" [value]="username" disabled class="disabled-input">
   </div>
-  <div class="form-group">
-    <label for="email">Email Address</label>
-    <input type="email" id="email" [value]="email" disabled>
+
+  <div class="settings-actions">
+    <button class="btn btn-save cyan" (click)="saveChanges()">Save Profile Picture</button>
   </div>
 
   <h2><lucide-icon name="alert-triangle" [size]="20"></lucide-icon> Danger Zone</h2>
   <div class="danger-zone">
     <div class="danger-item">
-      <div class="info"><h4>Reset All Progress</h4><p>Erase all training history.</p></div>
-      <button class="btn btn-danger" (click)="resetProgress()"><lucide-icon name="rotate-cw" [size]="16"></lucide-icon> Reset</button>
+      <div class="info">
+        <h4>Reset All Progress</h4>
+        <p>Erase all training history and start fresh.</p>
+      </div>
+      <button class="btn btn-danger" (click)="resetProgress()">
+        <lucide-icon name="rotate-cw" [size]="16"></lucide-icon> Reset
+      </button>
     </div>
     <div class="danger-item">
-      <div class="info"><h4>Delete Account</h4><p>Permanently delete your account.</p></div>
-      <button class="btn btn-danger" (click)="deleteAccount()"><lucide-icon name="trash-2" [size]="16"></lucide-icon> Delete</button>
+      <div class="info">
+        <h4>Delete Account</h4>
+        <p>Permanently delete your account and data.</p>
+      </div>
+      <button class="btn btn-danger" (click)="deleteAccount()">
+        <lucide-icon name="trash-2" [size]="16"></lucide-icon> Delete
+      </button>
     </div>
   </div>
 
-  <div class="settings-actions">
-    <button class="btn btn-save cyan" (click)="saveChanges()">Save Changes</button>
-  </div>
 </div>

@@ -42,4 +42,15 @@ export class UserService {
         tap(() => this.avatarSubject.next(null)) // Update state to null
       );
   }
+
+// [NEW] Reset Progress
+  resetProgress(): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/api/user/progress`);
+  }
+
+  // [NEW] Delete Account
+  deleteAccount(): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/api/user`);
+  }
+
 }

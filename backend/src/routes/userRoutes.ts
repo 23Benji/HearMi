@@ -131,4 +131,71 @@ router.delete(
   }
 );
 
+// [NEW] DELETE /api/user/progress - Reset all training stats
+router.delete(
+  "/progress",
+  authMiddleware,
+  async (req: AuthedRequest, res: Response): Promise<void> => {
+    if (!req.userId) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
+
+    try {
+      const { error } = await supabase
+        .from("results")
+        .delete()
+        .eq("user_id", req.userId);
+
+      if (error) throw error;
+
+      res.json({ message: "Progress reset successfully" });
+    } catch (error: any) {
+      console.error("Reset progress error:", error);
+      res.status(500).json({ error: "Failed to reset progress" });
+    }
+  }
+);
+
+// [NEW] DELETE /api/user - Delete entire account
+router.delete(
+  "/",
+  authMiddleware,
+  async (req: AuthedRequest, res: Response): Promise<void> => {
+    if (!req.userId) {
+      res.status(401).json({ error: "Unauthorized" });
+      return;
+    }
+
+    try {
+      // 1. Delete Results
+      const { error: resultsError } = await supabase
+        .from("results")
+        .delete()
+        .eq("user_id", req.userId);
+      if (resultsError) throw resultsError;
+
+      // 2. Delete Avatar (DB record)
+      // Note: Actual file deletion from storage is ideal but optional for MVP
+      const { error: avatarError } = await supabase
+        .from("user_avatars")
+        .delete()
+        .eq("user_id", req.userId);
+      if (avatarError) console.error("Avatar DB delete error (non-fatal):", avatarError);
+
+      // 3. Delete User
+      const { error: userError } = await supabase
+        .from("users")
+        .delete()
+        .eq("id", req.userId);
+      
+      if (userError) throw userError;
+
+      res.json({ message: "Account deleted successfully" });
+    } catch (error: any) {
+      console.error("Delete account error:", error);
+      res.status(500).json({ error: "Failed to delete account" });
+    }
+  }
+);
 export default router;
