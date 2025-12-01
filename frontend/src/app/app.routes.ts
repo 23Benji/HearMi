@@ -2,6 +2,8 @@
 
 import { Routes } from '@angular/router';
 
+// Make sure this matches your actual component class name (usually LandingComponent)
+import { LandingComponent } from './pages/landing/landing';
 import { LoginComponent } from './pages/login/login';
 import { RegisterComponent } from './pages/register/register';
 
@@ -18,7 +20,18 @@ import { authGuard } from './guards/auth.guard';
 import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
-  // --- AUTH ROUTES (nur für NICHT eingeloggte User) ---
+
+  // --- 1. THE "DOOR" (Landing Page) ---
+  // This matches EXACTLY the root URL (localhost:4200/).
+  // It is accessible to everyone.
+  {
+    path: '',
+    component: LandingComponent,
+    pathMatch: 'full'
+  },
+
+  // --- 2. AUTH ROUTES ---
+  // Only for guests (not logged in).
   {
     path: 'login',
     component: LoginComponent,
@@ -30,7 +43,9 @@ export const routes: Routes = [
     canActivate: [guestGuard]
   },
 
-  // --- HAUPT-APP (nur für EINGELOGGTE User) ---
+  // --- 3. MAIN APP ---
+  // Protected by authGuard.
+  // This handles URLs like /dashboard, /settings, etc.
   {
     path: '',
     component: MainLayoutComponent,
@@ -44,11 +59,12 @@ export const routes: Routes = [
       { path: 'training/pitch-comparison', component: PitchComparisonComponent },
       { path: 'training/interval-training', component: IntervalTrainingComponent },
 
-      // Base-URL → Dashboard
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' }
+      // Note: We removed the empty path redirect here because
+      // the empty path '' is now handled by the Landing Page above.
     ]
   },
 
-  // --- FALLBACK ---
-  { path: '**', redirectTo: 'login' }
+  // --- 4. FALLBACK ---
+  // Redirect unknown URLs to the landing page
+  { path: '**', redirectTo: '' }
 ];

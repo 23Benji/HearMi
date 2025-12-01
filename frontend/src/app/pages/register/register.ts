@@ -4,11 +4,13 @@ import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { LucideAngularModule } from 'lucide-angular'; // <--- 1. Import Module
+
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink,LucideAngularModule ],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })

@@ -92,3 +92,42 @@ p {
     text-decoration: none;
   }
 }
+
+.back-home-btn {
+  position: absolute;
+  top: 2rem;
+  left: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  // Glassy style to match the theme
+  background-color: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--border-color-light);
+
+  color: var(--secondary-text);
+  text-decoration: none;
+  padding: 0.75rem 1.25rem;
+  border-radius: 100px; // Pill shape
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
+  z-index: 10; // Ensure it sits above background elements
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--primary-text);
+    border-color: var(--accent-blue);
+    transform: translateX(-4px); // Subtle slide left effect
+  }
+}
+
+// Mobile adjustment
+@media (max-width: 768px) {
+  .back-home-btn {
+    top: 1rem;
+    left: 1rem;
+    padding: 0.6rem 1rem;
+  }
+}

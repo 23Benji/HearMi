@@ -41,7 +41,8 @@ import {
   Guitar,
   SignalLow,
   SignalMedium,
-  Signal
+  Signal,
+  ArrowLeft
 } from 'lucide-angular';
 
 
@@ -87,7 +88,8 @@ bootstrapApplication(AppComponent, {
         Guitar,
         SignalLow,
         SignalMedium,
-        Signal
+        Signal,
+        ArrowLeft
       })
     )
   ]
