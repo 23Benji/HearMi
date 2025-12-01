@@ -197,29 +197,68 @@
 // VVV ADD THIS MEDIA QUERY AT THE END VVV
 @media (max-width: 768px) {
   .training-header h1 {
-    font-size: 2rem;
+    font-size: 1.75rem;
+    word-break: break-word;
   }
 
+  // 1. STATS: Keep as 1 column or 2 small ones (optional)
   .session-stats {
-    // Show 2 stats per row on mobile, instead of 4
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr); // 2x2 grid for stats is more compact
+    gap: 0.5rem;
   }
 
-  .answer-grid {
-    // For grids with many buttons, force fewer columns to prevent tiny buttons
-    &[style*="repeat(6, 1fr)"] { // Targets the Single Note grid
-      grid-template-columns: repeat(3, 1fr);
-    }
-    &[style*="repeat(4, 1fr)"] { // Targets the Single Note grid (new layout)
-      grid-template-columns: repeat(3, 1fr);
+  .stat-card {
+    padding: 0.75rem;
+    flex-direction: column; // Stack icon and text inside stat card to save horizontal space
+    align-items: flex-start;
+    gap: 0.25rem;
+
+    .stat-text {
+      font-size: 0.8rem;
+      white-space: normal; // Allow text to wrap
     }
   }
 
+  // 2. MAIN CARD
   .main-interaction-card {
-    padding: 1.5rem;
+    padding: 1.5rem 1rem;
+    gap: 2rem;
   }
 
+  .play-button {
+    width: 100px;
+    height: 100px;
+    .play-icon { font-size: 3rem; }
+  }
+
+  // 3. ANSWER GRID FIX
+  // Instead of 1 column, we use auto-fit with a small min-width (85px).
+  // This allows:
+  // - 3 buttons per row on most phones (Intervals, Single Notes)
+  // - 2 buttons per row on very small phones or for longer text
+  .answer-grid,
+  .answer-grid[style] {
+    grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)) !important;
+    gap: 0.5rem;
+  }
+
+  // Make buttons slightly smaller/compact on mobile
+  .answer-button {
+    padding: 0.75rem 0.25rem; // Less side padding
+    font-size: 0.9rem;
+    min-height: 50px; // Ensure touch target size
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // 4. CONTROLS
   .session-controls {
-    flex-direction: column; // Stack reset/save buttons
+    flex-direction: column;
+    width: 100%;
+
+    .btn {
+      width: 100%;
+    }
   }
 }

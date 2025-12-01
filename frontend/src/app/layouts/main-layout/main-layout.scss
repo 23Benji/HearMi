@@ -163,31 +163,55 @@
   display: none;
 }
 
-// --- MOBILE RESPONSIVE STYLES ---
 @media (max-width: 768px) {
   .sidebar {
     position: fixed;
     top: 0;
     left: 0;
-    height: 100%;
+    // Use dynamic viewport height to account for mobile browser address bars
+    height: 100dvh;
+    // Fallback for older browsers
+    height: 100vh;
     z-index: 1000;
     transform: translateX(-100%);
     width: 85vw;
     max-width: 320px;
+
+    // Ensure flex layout works correctly for the scrolling area
+    display: flex;
+    flex-direction: column;
+    padding-bottom: env(safe-area-inset-bottom); // Handle iPhone home bar
   }
 
   .sidebar.sidebar-open {
     transform: translateX(0);
+    box-shadow: 10px 0 30px rgba(0,0,0,0.5); // Add shadow for better visibility
+  }
+
+  .sidebar-nav {
+    // This ensures the middle section takes up space but scrolls if too tall
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0; // Crucial for flex child scrolling
+  }
+
+  .sidebar-footer {
+    // Ensure footer never shrinks and stays at bottom
+    flex-shrink: 0;
+    background-color: rgba(9, 4, 26, 0.95); // Slightly darker bg behind footer
+    padding-bottom: 15%;
   }
 
   .sidebar-header {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1.5rem;
-    padding: 0.5rem 0.5rem 1.5rem 0.5rem;
+    flex-direction: row; // Keep logo and close button side-by-side
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    flex-shrink: 0; // Header should not shrink
   }
 
+  // ... (keep button styles)
   .open-sidebar-btn, .close-sidebar-btn {
     display: block;
     background: none;
@@ -203,23 +227,11 @@
     z-index: 50;
   }
 
-  .close-sidebar-btn {
-    position: static;
-  }
-
-  // =======================================================
-  // VVV THIS IS THE FIX VVV
-  // The 'display: none;' rule for the footer was here and has been removed.
-  // The footer will now be visible on mobile by default.
-  // =======================================================
-
   .sidebar-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0; // Short for top/left/right/bottom: 0
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px); // Nice blur effect on background
     z-index: 999;
     opacity: 0;
     visibility: hidden;
@@ -235,7 +247,6 @@
     padding: 5rem 1.5rem 2rem 1.5rem;
   }
 }
-
 // ... At the end of the file, find .logout-button and add .settings-button
 
 .logout-button, .settings-button { // <-- Add .settings-button here

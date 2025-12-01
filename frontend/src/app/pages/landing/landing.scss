@@ -1,5 +1,12 @@
+/* frontend/src/app/pages/landing/landing.scss */
+
 /* --- FONTS & VARIABLES --- */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+
+/* GLOBAL RESET FOR THIS COMPONENT */
+* {
+  box-sizing: border-box; /* Crucial for preventing overflow */
+}
 
 :host {
   display: block;
@@ -9,9 +16,10 @@
   background-image:
     radial-gradient(circle at 15% 50%, rgba(192, 132, 252, 0.1), transparent 25%),
     radial-gradient(circle at 85% 30%, rgba(34, 211, 238, 0.1), transparent 25%);
-  overflow-x: hidden;
+  overflow-x: hidden; /* Force hide horizontal scrollbar on the host */
   line-height: 1.6;
   min-height: 100vh;
+  width: 100%;
 }
 
 $glass-bg: rgba(255, 255, 255, 0.03);
@@ -27,6 +35,7 @@ $accent-green: #4ade80;
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
+  width: 100%; /* Ensure container respects parent width */
 }
 
 .glass-panel {
@@ -61,6 +70,7 @@ nav {
   align-items: center;
 }
 
+// VVV FIXED LOGO STYLES VVV
 .logo {
   display: flex;
   align-items: center;
@@ -70,15 +80,27 @@ nav {
   text-decoration: none;
   color: white;
   cursor: pointer;
+  padding-left: 0; /* Removed the 10% padding causing overflow */
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
+  /* Dynamic width that respects aspect ratio */
+  width: auto;
+  height: 40px; /* Fixed height to fit navbar */
+  max-width: 150px; /* Cap width so it doesn't get too big */
+
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start; /* Align image to the left */
+
+  img {
+    height: 100%;
+    width: auto;
+    object-fit: contain; /* Ensure the whole logo is visible */
+    object-position: left center;
+  }
 }
+// ^^^ END FIXED LOGO STYLES ^^^
 
 .nav-links {
   display: flex;
@@ -125,6 +147,7 @@ nav {
   text-align: center;
   padding-top: 80px;
   position: relative;
+  overflow: hidden; /* Contains the glowing circle */
 }
 
 #hero::before {
@@ -137,6 +160,12 @@ nav {
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: -1;
+  pointer-events: none; /* Prevents interference */
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
 }
 
 .hero-content h1 {
@@ -177,6 +206,7 @@ nav {
 #features {
   padding: 4rem 0 8rem;
   position: relative;
+  overflow: hidden; /* Prevents reactor ring from overflowing */
 }
 
 .section-title {
@@ -199,7 +229,6 @@ nav {
   align-items: center;
 }
 
-/* The spinning ring in background */
 .reactor-ring {
   position: absolute;
   width: 100%;
@@ -208,8 +237,7 @@ nav {
   border-radius: 50%;
   animation: spin 30s linear infinite;
 
-  &::before,
-  &::after {
+  &::before, &::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -218,28 +246,13 @@ nav {
     border-radius: 50%;
     border: 1px dashed rgba(255, 255, 255, 0.1);
   }
-
-  &::before {
-    width: 70%;
-    height: 70%;
-  }
-
-  &::after {
-    width: 40%;
-    height: 40%;
-    border-style: solid;
-    border-color: rgba(255, 255, 255, 0.05);
-  }
+  &::before { width: 70%; height: 70%; }
+  &::after { width: 40%; height: 40%; border-style: solid; border-color: rgba(255, 255, 255, 0.05); }
 }
 
 @keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .reactor-core {
@@ -261,7 +274,6 @@ nav {
   z-index: 1;
 }
 
-/* The 4 Quadrant Cards */
 .tech-card {
   background: rgba(15, 10, 36, 0.7);
   backdrop-filter: blur(12px);
@@ -278,7 +290,6 @@ nav {
   position: relative;
   overflow: hidden;
 
-  // Add colored glow on hover
   &::before {
     content: '';
     position: absolute;
@@ -292,44 +303,13 @@ nav {
   &:hover {
     transform: scale(1.05);
     border-color: rgba(255, 255, 255, 0.2);
-
-    &::before {
-      opacity: 0.15;
-    }
+    &::before { opacity: 0.15; }
   }
 
-  // Specific colors
-  &.cyan {
-    --glow-color: #{$accent-cyan};
-
-    .tech-icon {
-      color: $accent-cyan;
-    }
-  }
-
-  &.purple {
-    --glow-color: #{$accent-purple};
-
-    .tech-icon {
-      color: $accent-purple;
-    }
-  }
-
-  &.orange {
-    --glow-color: #{$accent-orange};
-
-    .tech-icon {
-      color: $accent-orange;
-    }
-  }
-
-  &.green {
-    --glow-color: #{$accent-green};
-
-    .tech-icon {
-      color: $accent-green;
-    }
-  }
+  &.cyan { --glow-color: #{$accent-cyan}; .tech-icon { color: $accent-cyan; } }
+  &.purple { --glow-color: #{$accent-purple}; .tech-icon { color: $accent-purple; } }
+  &.orange { --glow-color: #{$accent-orange}; .tech-icon { color: $accent-orange; } }
+  &.green { --glow-color: #{$accent-green}; .tech-icon { color: $accent-green; } }
 }
 
 .tech-icon {
@@ -348,7 +328,6 @@ nav {
   color: $text-muted;
 }
 
-
 /* --- PHILOSOPHY SECTION --- */
 #philosophy {
   padding: 6rem 0;
@@ -364,16 +343,8 @@ nav {
   align-items: center;
 }
 
-.text-block h2 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.text-block p {
-  font-size: 1.1rem;
-  color: $text-muted;
-  margin-bottom: 1.5rem;
-}
+.text-block h2 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+.text-block p { font-size: 1.1rem; color: $text-muted; margin-bottom: 1.5rem; }
 
 .visual-block {
   height: 400px;
@@ -415,10 +386,7 @@ nav {
   width: 320px;
   text-align: left;
   transition: transform 0.3s;
-
-  &:hover {
-    transform: translateY(-5px);
-  }
+  &:hover { transform: translateY(-5px); }
 }
 
 .team-avatar {
@@ -432,26 +400,12 @@ nav {
   font-weight: 700;
   color: white;
   flex-shrink: 0;
-
-  &.gradient-blue {
-    background: linear-gradient(135deg, #3b82f6, #1e40af);
-  }
-
-  &.gradient-purple {
-    background: linear-gradient(135deg, #a855f7, #6b21a8);
-  }
+  &.gradient-blue { background: linear-gradient(135deg, #3b82f6, #1e40af); }
+  &.gradient-purple { background: linear-gradient(135deg, #a855f7, #6b21a8); }
 }
 
-.team-info h3 {
-  font-size: 1.1rem;
-  margin-bottom: 0.25rem;
-}
-
-.team-info .role {
-  font-size: 0.9rem;
-  color: $accent-cyan;
-  font-weight: 500;
-}
+.team-info h3 { font-size: 1.1rem; margin-bottom: 0.25rem; }
+.team-info .role { font-size: 0.9rem; color: $accent-cyan; font-weight: 500; }
 
 /* --- FOOTER --- */
 footer {
@@ -464,64 +418,141 @@ footer {
 
 /* --- ANIMATIONS --- */
 @keyframes fadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+.animate-in { opacity: 0; animation: fadeUp 0.8s ease-out forwards; }
+.delay-1 { animation-delay: 0.2s; }
+.delay-2 { animation-delay: 0.4s; }
 
-.animate-in {
-  opacity: 0;
-  animation: fadeUp 0.8s ease-out forwards;
-}
-
-.delay-1 {
-  animation-delay: 0.2s;
-}
-
-.delay-2 {
-  animation-delay: 0.4s;
-}
-
-/* --- MOBILE --- */
+/* --- MOBILE RESPONSIVE OPTIMIZATIONS --- */
 @media (max-width: 768px) {
-  .hero-content h1 {
-    font-size: 2.5rem;
+  // 1. General Layout
+  .container {
+    padding: 0 1.25rem;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  // 2. Navigation & Logo Fix
+  nav {
+    padding: 0.75rem 0;
+  }
+
+  .logo {
+    padding-left: 0 !important; // Reset desktop padding
+
+    // VVV FIX: Allow the icon container to expand VVV
+    .logo-icon {
+      width: auto; // Allow width to fit the image
+      max-width: 140px; // Cap the width so it's not huge
+      height: 40px; // Fixed height to keep navbar slim
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain; // Ensure full logo is visible
+        object-position: left center; // Align to the left
+      }
+    }
   }
 
   .nav-links {
     display: none;
   }
 
-  .philosophy-layout {
-    grid-template-columns: 1fr;
+  .btn-nav {
+    padding: 0.5rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  // ... (Keep the rest of the mobile styles: hero, reactor, team, etc.) ...
+  #hero {
+    min-height: auto;
+    padding-top: 100px;
+    padding-bottom: 3rem;
+  }
+
+  #hero::before {
+    width: 300px;
+    height: 300px;
+    opacity: 0.6;
+  }
+
+  .hero-content h1 {
+    font-size: 2.25rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    word-wrap: break-word;
+  }
+
+  .hero-content p {
+    font-size: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .btn-cta {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .section-title {
+    margin-bottom: 2rem;
+    h2 { font-size: 1.75rem; }
   }
 
   .reactor-container {
     aspect-ratio: auto;
     height: auto;
+    margin-top: 0;
   }
 
-  .reactor-ring,
-  .reactor-core {
+  .reactor-ring, .reactor-core {
     display: none;
   }
 
-  /* Hide complex visuals on mobile */
   .reactor-grid {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     gap: 1rem;
   }
 
+  .tech-card {
+    width: 100%;
+    padding: 1.5rem;
+    margin: 0;
+    &:hover { transform: none; }
+  }
+
+  #philosophy {
+    padding: 3rem 0;
+  }
+
+  .philosophy-layout {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .text-block {
+    text-align: center;
+    h2 { font-size: 1.75rem; }
+  }
+
+  .visual-block {
+    height: 200px;
+    order: -1;
+  }
+
   .team-grid {
     flex-direction: column;
-    align-items: center;
+    width: 100%;
+  }
+
+  .team-card {
+    width: 100%;
+    max-width: 100%;
+    padding: 1.25rem;
+    &:hover { transform: none; }
   }
 }
