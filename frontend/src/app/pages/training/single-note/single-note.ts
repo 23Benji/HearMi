@@ -92,7 +92,12 @@ export class SingleNoteComponent implements OnInit {
     }, 2500);
   }
 
-  resetSession(): void {
+  /**
+   * Session-Reset.
+   * clearMessages = true  -> auch Erfolg/Fehlertexte löschen
+   * clearMessages = false -> nur Zahlen & Zustand zurücksetzen
+   */
+  resetSession(clearMessages: boolean = true): void {
     this.score = 0;
     this.accuracy = 0;
     this.streak = 0;
@@ -100,9 +105,10 @@ export class SingleNoteComponent implements OnInit {
     this.isAwaitingAnswer = false;
     this.showFeedback = false;
 
-    // Meldungen resetten
-    this.saveSuccess = '';
-    this.saveError = '';
+    if (clearMessages) {
+      this.saveSuccess = '';
+      this.saveError = '';
+    }
 
     this.generateNewQuestion();
   }
@@ -134,8 +140,8 @@ export class SingleNoteComponent implements OnInit {
         this.saveSuccess = 'Session saved successfully 🎉';
         this.saveError = '';
 
-        // Session zurücksetzen, nachdem gespeichert wurde
-        this.resetSession();
+        // Zahlen zurücksetzen, Meldung bleibt sichtbar
+        this.resetSession(false);
       },
       error: (err) => {
         console.error('Error saving Single Note session', err);

@@ -17,12 +17,15 @@ export class TrainingSession {
 
   /**
    * Payload-Form, wie das Backend sie erwartet.
-   * Aktuell: nur exercise_id + score.
+   * (falls du sie irgendwo verwenden möchtest)
    */
   toApiPayload() {
     return {
       exercise_id: this.exerciseId,
-      score: this.score
+      score: this.score,
+      total_questions: this.totalQuestions,
+      accuracy: this.accuracy,
+      best_streak: this.bestStreak
     };
   }
 }

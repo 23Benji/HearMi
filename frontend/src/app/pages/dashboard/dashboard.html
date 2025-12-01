@@ -1,7 +1,10 @@
 <!-- frontend/src/app/pages/dashboard/dashboard.html -->
 
 <div class="dashboard-header">
-  <h1>Welcome back, {{ username }}</h1>
+  <h1>
+    Welcome back,
+    <span class="highlight">{{ username || 'Musician' }}</span>
+  </h1>
   <p class="subtitle">Continue your ear training journey</p>
 </div>
 
@@ -58,21 +61,25 @@
       <div class="text-wrapper">
         <h3>{{ card.label }}</h3>
         <p class="description">
-          <!-- Du kannst hier später pro Modus noch eigene Beschreibung setzen -->
+          {{ card.description }}
         </p>
       </div>
     </div>
 
     <div class="card-stats">
       <div class="stat-item">
-        <span>Sessions</span> <span>{{ card.sessions }}</span>
+        <span>Sessions</span>
+        <span>{{ card.sessions }}</span>
       </div>
       <div class="stat-item">
         <span>Best Accuracy</span>
-        <span class="text-cyan">{{ card.bestAccuracy || 0 }}%</span>
+        <span class="text-cyan">
+          {{ card.bestAccuracy | number: '1.0-1' }}%
+        </span>
       </div>
       <div class="stat-item">
-        <span>Best Streak</span> <span>{{ card.bestStreak || 0 }}</span>
+        <span>Best Streak</span>
+        <span>{{ card.bestStreak }}</span>
       </div>
     </div>
 
@@ -117,8 +124,12 @@
         </div>
 
         <div class="activity-stats">
-          <p class="activity-percent">{{ activity.accuracy }}%</p>
-          <p class="activity-streak">Streak: {{ activity.streak }}</p>
+          <p class="activity-percent">
+            {{ activity.accuracy ?? 0 | number: '1.0-1' }}%
+          </p>
+          <p class="activity-streak">
+            Streak: {{ activity.streak ?? 0 }}
+          </p>
         </div>
       </div>
     } @empty {

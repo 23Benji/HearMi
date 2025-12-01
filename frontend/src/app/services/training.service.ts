@@ -39,7 +39,16 @@ export interface DashboardSummary {
 export class TrainingService {
   constructor(private http: HttpClient) {}
 
-  // Session speichern
+  /**
+   * Session speichern.
+   * Erwartete Spalten in Supabase-Tabelle `results`:
+   *  - exercise_id
+   *  - score
+   *  - total_questions
+   *  - accuracy
+   *  - best_streak
+   *  (user_id, user_name, created_at werden im Backend gesetzt)
+   */
   saveSession(session: TrainingSession): Observable<any> {
     return this.http.post(`${environment.apiUrl}/api/results`, {
       exercise_id: session.exerciseId,
@@ -50,7 +59,9 @@ export class TrainingService {
     });
   }
 
-  // Dashboard-Übersicht
+  /**
+   * Dashboard-Übersicht laden.
+   */
   getDashboardSummary(): Observable<DashboardSummary> {
     return this.http.get<DashboardSummary>(
       `${environment.apiUrl}/api/results/summary`

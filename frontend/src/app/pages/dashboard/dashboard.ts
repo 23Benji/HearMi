@@ -13,15 +13,13 @@ import {
 } from '../../services/training.service';
 import { AuthService } from '../../services/auth.service';
 
-interface TrainingCardMeta {
-  id: number;
+interface TrainingCardView {
+  exerciseId: number;
   label: string;
+  description: string;
   iconName: string;
-  colorClass: string;
+  colorClass: 'bg-cyan' | 'bg-purple' | 'bg-orange' | 'bg-green';
   routeSegment: string;
-}
-
-interface TrainingCardView extends TrainingCardMeta {
   sessions: number;
   bestAccuracy: number;
   bestStreak: number;
@@ -33,9 +31,9 @@ interface RecentActivityView {
   iconName: string;
   colorClass: string;
   score: number;
-  total: number;
-  accuracy: number;
-  streak: number;
+  total: number | null;
+  accuracy: number | null;
+  streak: number | null;
   createdAt: string;
 }
 
@@ -47,47 +45,68 @@ interface RecentActivityView {
   styleUrl: './dashboard.scss'
 })
 export class DashboardComponent implements OnInit {
-  username = '';
+  username: string | null = null;
 
+  // Top-Stats
   totalSessions = 0;
   totalCorrect = 0;
   overallAccuracy = 0;
 
-  trainingCards: TrainingCardView[] = [];
-  recentActivities: RecentActivityView[] = [];
-
-  loading = true;
+  // Status für API-Call
+  loading = false;
   error = '';
 
-  // Zuordnung der Exercises zu Routen / Icons / Farben
-  private readonly baseCards: TrainingCardMeta[] = [
+  // Karten-Daten
+  trainingCards: TrainingCardView[] = [];
+
+  // Recent Activity
+  recentActivities: RecentActivityView[] = [];
+
+  // Basis-Definition der 4 Trainingsmodi
+  private readonly baseCards: TrainingCardView[] = [
     {
-      id: 1,
+      exerciseId: 1,
       label: 'Single Note',
+      description: 'Identify individual notes',
       iconName: 'music',
       colorClass: 'bg-cyan',
-      routeSegment: 'single-note'
+      routeSegment: 'single-note',
+      sessions: 0,
+      bestAccuracy: 0,
+      bestStreak: 0
     },
     {
-      id: 2,
+      exerciseId: 2,
       label: 'Chord Recognition',
+      description: 'Identify chord types',
       iconName: 'music-2',
       colorClass: 'bg-purple',
-      routeSegment: 'chord-recognition'
+      routeSegment: 'chord-recognition',
+      sessions: 0,
+      bestAccuracy: 0,
+      bestStreak: 0
     },
     {
-      id: 3,
+      exerciseId: 3,
       label: 'Pitch Comparison',
+      description: 'Compare note intervals',
       iconName: 'git-compare',
       colorClass: 'bg-orange',
-      routeSegment: 'pitch-comparison'
+      routeSegment: 'pitch-comparison',
+      sessions: 0,
+      bestAccuracy: 0,
+      bestStreak: 0
     },
     {
-      id: 4,
+      exerciseId: 4,
       label: 'Interval Training',
+      description: 'Recognize musical intervals',
       iconName: 'waves',
       colorClass: 'bg-green',
-      routeSegment: 'interval-training'
+      routeSegment: 'interval-training',
+      sessions: 0,
+      bestAccuracy: 0,
+      bestStreak: 0
     }
   ];
 
@@ -98,63 +117,83 @@ export class DashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.username = this.auth.getUsername() ?? 'Musician';
+    // Username aus Session lesen
+    this.username = this.auth.getUsername();
+    // Dashboard-Stats laden
+    this.loadStats();
+  }
+
+  /**
+   * Lädt die Dashboard-Zusammenfassung vom Backend.
+   */
+  private loadStats(): void {
+    this.loading = true;
+    this.error = '';
 
     this.trainingService.getDashboardSummary().subscribe({
-      next: (summary) => this.applySummary(summary),
-      error: (err) => {
-        console.error('Failed to load dashboard summary', err);
-        this.error = 'Could not load stats. Please try again later.';
+      next: (summary: DashboardSummary) => {
         this.loading = false;
+        this.applySummary(summary);
+      },
+      error: (err) => {
+        this.loading = false;
+        console.error('Error loading dashboard summary', err);
+        this.error =
+          err?.error?.error ?? 'Could not load statistics from the server.';
       }
     });
   }
 
+  /**
+   * Überträgt die Daten aus der API-Antwort ins UI-Model.
+   */
   private applySummary(summary: DashboardSummary): void {
+    // Top-Karten
     this.totalSessions = summary.totalSessions;
     this.totalCorrect = summary.totalCorrect;
-    this.overallAccuracy = Math.round(summary.overallAccuracy);
+    this.overallAccuracy = summary.overallAccuracy;
 
-    const byId = new Map<number, ExerciseSummary>();
-    summary.perExercise.forEach((ex) => byId.set(ex.exerciseId, ex));
+    // Map für schnellen Zugriff pro Übung
+    const perExerciseMap = new Map<number, ExerciseSummary>();
+    summary.perExercise.forEach((ex) =>
+      perExerciseMap.set(ex.exerciseId, ex)
+    );
 
-    this.trainingCards = this.baseCards.map((card) => {
-      const stat = byId.get(card.id);
+    // Trainingskarten befüllen
+    this.trainingCards = this.baseCards.map((base) => {
+      const stat = perExerciseMap.get(base.exerciseId);
+
       return {
-        ...card,
+        ...base,
         sessions: stat?.sessions ?? 0,
         bestAccuracy: stat?.bestAccuracy ?? 0,
         bestStreak: stat?.bestStreak ?? 0
       };
     });
 
+    // Recent Activity
     this.recentActivities = summary.recentSessions.map(
-      (session: RecentSessionSummary) => {
-        const meta =
-          this.baseCards.find((c) => c.id === session.exerciseId) ??
-          ({
-            id: session.exerciseId,
-            label: session.exerciseName,
-            iconName: 'music',
-            colorClass: 'bg-cyan',
-            routeSegment: 'single-note'
-          } as TrainingCardMeta);
+      (s: RecentSessionSummary): RecentActivityView => {
+        const base = this.baseCards.find(
+          (c) => c.exerciseId === s.exerciseId
+        );
+
+        let iconName = base?.iconName ?? 'target';
+        let colorClass = base?.colorClass ?? 'bg-cyan';
 
         return {
-          id: session.id,
-          modeName: meta.label,
-          iconName: meta.iconName,
-          colorClass: meta.colorClass,
-          score: session.score,
-          total: session.totalQuestions ?? 0,
-          accuracy: session.accuracy ?? 0,
-          streak: session.bestStreak ?? 0,
-          createdAt: session.createdAt
+          id: s.id,
+          modeName: s.exerciseName,
+          iconName,
+          colorClass,
+          score: s.score,
+          total: s.totalQuestions,
+          accuracy: s.accuracy,
+          streak: s.bestStreak,
+          createdAt: s.createdAt
         };
       }
     );
-
-    this.loading = false;
   }
 
   onCardMouseMove(event: MouseEvent): void {

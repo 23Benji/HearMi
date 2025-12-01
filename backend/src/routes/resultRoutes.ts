@@ -129,7 +129,7 @@ router.get(
       return;
     }
 
-    // 1) Alle Ergebnisse dieses Users holen (einmal)
+    // 1) Alle Ergebnisse dieses Users holen
     const { data: resultsData, error } = await supabase
       .from("results")
       .select(
@@ -145,22 +145,27 @@ router.get(
 
     const results = (resultsData ?? []) as ResultRow[];
 
-    // 2) Alle Übungen holen, um Namen zu kennen
+    // 2) Versuchen, die Übungen zu laden – aber NICHT fehlschlagen,
+    //    falls die Tabelle nicht existiert oder anders heißt.
+    const exerciseMap = new Map<number, string>();
+
     const { data: exercisesData, error: exError } = await supabase
       .from("exercises")
       .select("id, name");
 
-    if (exError) {
-      res.status(400).json({ error: exError.message });
-      return;
+    if (!exError && exercisesData) {
+      (exercisesData as any[]).forEach((ex) => {
+        exerciseMap.set(ex.id, ex.name);
+      });
+    } else if (exError) {
+      // Nur serverseitig loggen, aber keinen 400 an den Client schicken
+      console.error(
+        "Konnte Tabelle 'exercises' nicht laden – verwende Fallback-Namen:",
+        exError.message
+      );
     }
 
-    const exerciseMap = new Map<number, string>();
-    (exercisesData ?? []).forEach((ex: any) =>
-      exerciseMap.set(ex.id, ex.name)
-    );
-
-    // 3) Aggregation in Node (kein weiterer DB-Call)
+    // 3) Aggregation in Node
     const totalSessions = results.length;
     let totalCorrect = 0;
     let totalQuestions = 0;
@@ -177,12 +182,14 @@ router.get(
 
     for (const r of results) {
       totalCorrect += r.score ?? 0;
+
       if (r.total_questions != null) {
         totalQuestions += r.total_questions;
       }
 
       const exerciseName =
         exerciseMap.get(r.exercise_id) ?? `Exercise ${r.exercise_id}`;
+
       let stat = perExerciseMap.get(r.exercise_id);
       if (!stat) {
         stat = {
