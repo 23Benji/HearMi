@@ -96,11 +96,17 @@
   </button>
 </div>
 
-<div class="session-messages">
-  <p *ngIf="saveSuccess" class="session-success">
-    {{ saveSuccess }}
-  </p>
-  <p *ngIf="saveError" class="session-error">
-    {{ saveError }}
-  </p>
+<div class="toast-container">
+  @if (saveSuccess) {
+    <div class="toast success">
+      <lucide-icon name="check-circle-2" [size]="22" class="toast-icon"></lucide-icon>
+      <span>{{ saveSuccess }}</span>
+    </div>
+  }
+  @if (saveError) {
+    <div class="toast error">
+      <lucide-icon name="alert-triangle" [size]="22" class="toast-icon"></lucide-icon>
+      <span>{{ saveError }}</span>
+    </div>
+  }
 </div>

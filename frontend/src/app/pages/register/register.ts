@@ -10,7 +10,7 @@ import { LucideAngularModule } from 'lucide-angular'; // <--- 1. Import Module
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink,LucideAngularModule ],
+  imports: [CommonModule, FormsModule, RouterLink, LucideAngularModule],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
@@ -20,6 +20,8 @@ export class RegisterComponent {
   username = '';
   password = '';
   confirmPassword = '';
+  showPassword = false;
+  showConfirmPassword = false
 
   error = '';
   success = '';
@@ -27,7 +29,16 @@ export class RegisterComponent {
   constructor(
     private router: Router,
     private auth: AuthService
-  ) {}
+  ) { }
+
+  // NEW: Toggle functions
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
+
+  toggleConfirmPassword(): void {
+    this.showConfirmPassword = !this.showConfirmPassword;
+  }
 
   register() {
     this.error = '';

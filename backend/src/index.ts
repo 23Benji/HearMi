@@ -6,7 +6,7 @@ import path from "path";
 import authRoutes from "./routes/authRoutes";
 import exerciseRoutes from "./routes/exerciseRoutes";
 import resultRoutes from "./routes/resultRoutes";
-import userRoutes from "./routes/userRoutes"; // <--- IMPORT THIS
+import userRoutes from "./routes/userRoutes";
 
 dotenv.config();
 
@@ -21,7 +21,7 @@ app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 app.use("/auth", authRoutes);
 app.use("/api", exerciseRoutes);
 app.use("/api", resultRoutes);
-app.use("/api/user", userRoutes); // <--- REGISTER THIS
+app.use("/api/user", userRoutes);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {

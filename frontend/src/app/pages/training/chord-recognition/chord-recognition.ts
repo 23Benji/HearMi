@@ -101,10 +101,10 @@ export class ChordRecognitionComponent implements OnInit {
     this.generateNewQuestion();
   }
 
-  saveSession(): void {
+saveSession(): void {
     if (this.questions === 0) {
-      this.saveError = 'No data to save yet. Answer a few questions first.';
-      this.saveSuccess = '';
+      this.saveError = 'No data to save yet.';
+      setTimeout(() => this.saveError = '', 3000);
       return;
     }
 
@@ -113,26 +113,21 @@ export class ChordRecognitionComponent implements OnInit {
     this.saveError = '';
 
     const session = new TrainingSession(
-      2,                 // exercise_id für Chord Recognition
-      'Chord Recognition',
-      this.score,
-      this.questions,
-      this.accuracy,
-      this.streak
+      2, 'Chord Recognition', this.score, this.questions, this.accuracy, this.streak
     );
 
     this.trainingService.saveSession(session).subscribe({
       next: () => {
         this.isSaving = false;
         this.saveSuccess = 'Session saved successfully 🎉';
-        this.saveError = '';
         this.resetSession();
+        setTimeout(() => this.saveSuccess = '', 3000); // Auto-hide
       },
       error: (err) => {
-        console.error('Error saving Chord Recognition session', err);
+        console.error('Error', err);
         this.isSaving = false;
-        this.saveError = 'Could not save session. Please try again.';
-        this.saveSuccess = '';
+        this.saveError = 'Could not save session.';
+        setTimeout(() => this.saveError = '', 3000);
       }
     });
   }

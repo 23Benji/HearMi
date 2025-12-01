@@ -19,11 +19,17 @@ export class LoginComponent {
   email = '';
   password = '';
   error = '';
+  showPassword = false;
 
   constructor(
     private router: Router,
     private auth: AuthService
   ) {}
+
+// NEW: Toggle function
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   login() {
     this.error = '';
@@ -41,4 +47,6 @@ export class LoginComponent {
       }
     });
   }
+
+
 }

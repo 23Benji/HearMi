@@ -123,6 +123,44 @@ p {
   }
 }
 
+.input-wrapper {
+  position: relative; /* Creates the boundary for the absolute icon */
+  width: 100%;        /* Ensures the wrapper fills the form group */
+  display: block;     /* Use block to behave like a standard div */
+
+  input {
+    width: 100%;      /* Input takes full width of the wrapper */
+    padding-right: 45px !important; /* Space for icon so text doesn't overlap */
+    box-sizing: border-box; /* Prevents padding from breaking width */
+  }
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;           /* Move top edge to the middle of the container */
+  right: 12px;        /* 12px from the right edge */
+  transform: translateY(-50%); /* Shift up by half its own height to perfectly center it */
+
+  background: none;
+  border: none;
+  color: var(--secondary-text);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;        /* Ensure it sits on top of the input */
+
+  &:hover {
+    color: var(--primary-text);
+  }
+
+  &:focus {
+    outline: none;
+    color: var(--accent-blue);
+  }
+}
+
 // Mobile adjustment
 @media (max-width: 768px) {
   .back-home-btn {

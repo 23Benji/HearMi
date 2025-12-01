@@ -17,50 +17,33 @@
     <form (ngSubmit)="register()">
       <div class="form-group">
         <label for="email">Email</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="you@example.com"
-          [(ngModel)]="email"
-          name="email"
-          required
-        />
+        <input id="email" type="email" placeholder="you@example.com" [(ngModel)]="email" name="email" required />
       </div>
 
       <div class="form-group">
         <label for="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          placeholder="yourusername"
-          [(ngModel)]="username"
-          name="username"
-          required
-        />
+        <input id="username" type="text" placeholder="yourusername" [(ngModel)]="username" name="username" required />
       </div>
-
       <div class="form-group">
         <label for="password">Password</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="••••••••"
-          [(ngModel)]="password"
-          name="password"
-          required
-        />
+        <div class="input-wrapper">
+          <input id="password" [type]="showPassword ? 'text' : 'password'" placeholder="••••••••" [(ngModel)]="password"
+            name="password" required />
+          <button type="button" class="password-toggle" (click)="togglePassword()">
+            <lucide-icon [name]="showPassword ? 'eye-off' : 'eye'" [size]="20"></lucide-icon>
+          </button>
+        </div>
       </div>
 
       <div class="form-group">
         <label for="confirmPassword">Confirm Password</label>
-        <input
-          id="confirmPassword"
-          type="password"
-          placeholder="••••••••"
-          [(ngModel)]="confirmPassword"
-          name="confirmPassword"
-          required
-        />
+        <div class="input-wrapper">
+          <input id="confirmPassword" [type]="showConfirmPassword ? 'text' : 'password'" placeholder="••••••••"
+            [(ngModel)]="confirmPassword" name="confirmPassword" required />
+          <button type="button" class="password-toggle" (click)="toggleConfirmPassword()">
+            <lucide-icon [name]="showConfirmPassword ? 'eye-off' : 'eye'" [size]="20"></lucide-icon>
+          </button>
+        </div>
       </div>
 
       <button type="submit" class="auth-button">Sign Up</button>
