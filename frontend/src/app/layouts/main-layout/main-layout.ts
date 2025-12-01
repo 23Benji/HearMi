@@ -1,10 +1,9 @@
-// frontend/src/app/layouts/main-layout/main-layout.ts
-
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { LucideAngularModule } from 'lucide-angular';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service'; // Import service
 
 @Component({
   selector: 'app-main-layout',
@@ -19,17 +18,26 @@ import { AuthService } from '../../services/auth.service';
 })
 export class MainLayoutComponent implements OnInit {
   isSidebarOpen = false;
-
   username: string | null = null;
   usernameInitial: string = 'U';
+  avatarUrl: string | null = null; // Holds the live avatar URL
 
   constructor(
     private auth: AuthService,
+    private userService: UserService,
     private router: Router
   ) {}
 
   ngOnInit(): void {
     this.refreshUserInfo();
+
+    // 1. Initial Fetch
+    this.userService.getAvatar().subscribe();
+
+    // 2. Subscribe to updates (Live sync with Settings page)
+    this.userService.avatar$.subscribe(url => {
+      this.avatarUrl = url;
+    });
   }
 
   toggleSidebar(): void {
@@ -37,11 +45,11 @@ export class MainLayoutComponent implements OnInit {
   }
 
   logout(): void {
-    this.auth.logout();               // Session leeren
+    this.auth.logout();
     this.isSidebarOpen = false;
     this.username = null;
     this.usernameInitial = 'U';
-    this.router.navigate(['/login']); // zurück zur Login-Seite
+    this.router.navigate(['/login']);
   }
 
   private refreshUserInfo(): void {

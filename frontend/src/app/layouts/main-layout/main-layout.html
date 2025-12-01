@@ -1,9 +1,6 @@
-<!-- frontend/src/app/layouts/main-layout/main-layout.html -->
-
 <div class="app-container">
   <aside class="sidebar" [ngClass]="{ 'sidebar-open': isSidebarOpen }">
 
-    <!-- HEADER -->
     <div class="sidebar-header">
       <a class="logo-wrapper" routerLink="/dashboard" (click)="isSidebarOpen = false">
         <img src="assets/images/HearMi.svg" alt="HearMi Logo">
@@ -13,7 +10,6 @@
       </button>
     </div>
 
-    <!-- NAVIGATION -->
     <nav class="sidebar-nav">
       <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" (click)="isSidebarOpen = false">
         <lucide-icon name="layout-dashboard" [size]="20"></lucide-icon>
@@ -43,14 +39,20 @@
       </a>
     </nav>
 
-    <!-- USER PROFILE & LOGOUT -->
     <div class="sidebar-footer">
       <div class="user-profile">
-        <div class="user-avatar">{{ usernameInitial }}</div>
+        <ng-container *ngIf="avatarUrl; else fallbackAvatar">
+          <img [src]="avatarUrl" alt="User" class="user-avatar img">
+        </ng-container>
+
+        <ng-template #fallbackAvatar>
+          <div class="user-avatar">
+            {{ usernameInitial }}
+          </div>
+        </ng-template>
+
         <div class="user-info">
-          <span class="user-name">
-            {{ username || 'User' }}
-          </span>
+          <span class="user-name">{{ username || 'User' }}</span>
         </div>
       </div>
 
@@ -64,19 +66,12 @@
     </div>
   </aside>
 
-  <!-- MAIN CONTENT AREA -->
   <main class="main-content">
     <button class="open-sidebar-btn" (click)="toggleSidebar()">
       <lucide-icon name="menu" [size]="24"></lucide-icon>
     </button>
-
     <router-outlet></router-outlet>
   </main>
 
-  <!-- OVERLAY -->
-  <div
-    class="sidebar-overlay"
-    [ngClass]="{ 'overlay-visible': isSidebarOpen }"
-    (click)="toggleSidebar()">
-  </div>
+  <div class="sidebar-overlay" [ngClass]="{ 'overlay-visible': isSidebarOpen }" (click)="toggleSidebar()"></div>
 </div>

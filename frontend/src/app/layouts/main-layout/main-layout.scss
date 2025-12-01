@@ -116,6 +116,14 @@
   justify-content: center;
   font-weight: 600;
   flex-shrink: 0;
+  color: var(--primary-text); // Ensures initial is visible
+
+  // Style specifically for when it is an <img>
+  &.img {
+    object-fit: cover;
+    background: transparent;
+    border: 2px solid var(--border-color);
+  }
 }
 
 .user-info {
@@ -123,13 +131,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  .user-name {
-    font-weight: 600;
-  }
-  .user-email {
-    font-size: 0.7rem;
-    color: var(--secondary-text);
-  }
+  .user-name { font-weight: 600; }
+  .user-email { font-size: 0.7rem; color: var(--secondary-text); }
 }
 
 .logout-button {

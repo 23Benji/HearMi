@@ -1,5 +1,3 @@
-<!-- frontend/src/app/pages/settings/settings.component.html -->
-
 <div class="settings-header">
   <h1>Account Settings</h1>
   <p class="subtitle">Manage your profile and account details.</p>
@@ -7,124 +5,57 @@
 
 <div class="settings-card">
 
-  <!-- === PROFILE SECTION === -->
   <h2><lucide-icon name="user-circle" [size]="20"></lucide-icon> Profile</h2>
+
   <div class="profile-picture-section">
-    <img [src]="profileImageUrl" alt="User Avatar" class="avatar">
+    <img *ngIf="profileImageUrl" [src]="profileImageUrl" alt="User Avatar" class="avatar">
+
+    <div *ngIf="!profileImageUrl" class="avatar placeholder">
+      {{ usernameInitial }}
+    </div>
+
     <div class="upload-actions">
       <label for="profilePictureInput" class="upload-label">
         <lucide-icon name="upload" [size]="16"></lucide-icon>
         <span>Change Picture</span>
       </label>
       <input type="file" id="profilePictureInput" (change)="onFileSelected($event)" accept="image/*" hidden>
+
+      <button
+        *ngIf="profileImageUrl"
+        class="upload-label"
+        style="background-color: transparent; border-color: var(--accent-orange); color: var(--accent-orange); margin-top: 0.25rem;"
+        (click)="removeAvatar()"
+      >
+        <lucide-icon name="trash-2" [size]="16"></lucide-icon>
+        <span>Remove</span>
+      </button>
+
       <span class="upload-hint">PNG, JPG, or GIF. Max 2MB.</span>
     </div>
   </div>
+
   <div class="form-group">
     <label for="username">Username</label>
-    <input type="text" id="username" [(ngModel)]="username">
+    <input type="text" id="username" [(ngModel)]="username" disabled>
   </div>
   <div class="form-group">
     <label for="email">Email Address</label>
     <input type="email" id="email" [value]="email" disabled>
   </div>
 
-  <!-- === TRAINING PREFERENCES SECTION === -->
-  <h2><lucide-icon name="sliders-horizontal" [size]="20"></lucide-icon> Training Preferences</h2>
-
-  <!-- Instrument Sound Selection -->
-  <div class="form-group">
-    <label>Instrument Sound</label>
-    <div class="instrument-selection-grid">
-      @for (instrument of instruments; track instrument.id) {
-        <button
-          class="instrument-card"
-          [class.active]="selectedInstrument === instrument.id"
-          (click)="selectedInstrument = instrument.id">
-          <lucide-icon [name]="instrument.icon" [size]="28"></lucide-icon>
-          <span>{{ instrument.name }}</span>
-        </button>
-      }
-    </div>
-  </div>
-
-  <!-- Difficulty Selection -->
-  <div class="form-group">
-    <label>Difficulty</label>
-    <div class="radio-group">
-      <!-- Easy -->
-      <input type="radio" id="easy" name="difficulty" value="easy" [(ngModel)]="selectedDifficulty">
-      <label for="easy">
-        <div class="icon-wrapper"><lucide-icon name="signal-low" [size]="24"></lucide-icon></div>
-        <div class="text-wrapper">
-          <h4>Easy</h4>
-          <p>For beginners</p>
-        </div>
-      </label>
-
-      <!-- Medium -->
-      <input type="radio" id="medium" name="difficulty" value="medium" [(ngModel)]="selectedDifficulty">
-      <label for="medium">
-        <div class="icon-wrapper"><lucide-icon name="signal-medium" [size]="24"></lucide-icon></div>
-        <div class="text-wrapper">
-          <h4>Medium</h4>
-          <p>Balanced challenge</p>
-        </div>
-      </label>
-
-      <!-- Hard -->
-      <input type="radio" id="hard" name="difficulty" value="hard" [(ngModel)]="selectedDifficulty">
-      <label for="hard">
-        <div class="icon-wrapper"><lucide-icon name="signal" [size]="24"></lucide-icon></div>
-        <div class="text-wrapper">
-          <h4>Hard</h4>
-          <p>For experts</p>
-        </div>
-      </label>
-    </div>
-  </div>
-
-  <!-- === SECURITY SECTION === -->
-  <h2><lucide-icon name="shield-check" [size]="20"></lucide-icon> Security</h2>
-  <div class="form-group">
-    <label for="currentPassword">Current Password</label>
-    <input type="password" id="currentPassword" [(ngModel)]="currentPassword" placeholder="Enter your current password">
-  </div>
-  <div class="form-group">
-    <label for="newPassword">New Password</label>
-    <input type="password" id="newPassword" [(ngModel)]="newPassword" placeholder="Enter a new password">
-  </div>
-  <div class="form-group">
-    <label for="confirmPassword">Confirm New Password</label>
-    <input type="password" id="confirmPassword" [(ngModel)]="confirmPassword" placeholder="Confirm your new password">
-  </div>
-
-  <!-- === DANGER ZONE SECTION === -->
   <h2><lucide-icon name="alert-triangle" [size]="20"></lucide-icon> Danger Zone</h2>
   <div class="danger-zone">
     <div class="danger-item">
-      <div class="info">
-        <h4>Reset All Progress</h4>
-        <p>Erase all your training history, scores, and statistics. Your account will not be deleted.</p>
-      </div>
-      <button class="btn btn-danger" (click)="resetProgress()">
-        <lucide-icon name="rotate-cw" [size]="16"></lucide-icon>
-        <span>Reset</span>
-      </button>
+      <div class="info"><h4>Reset All Progress</h4><p>Erase all training history.</p></div>
+      <button class="btn btn-danger" (click)="resetProgress()"><lucide-icon name="rotate-cw" [size]="16"></lucide-icon> Reset</button>
     </div>
     <div class="danger-item">
-      <div class="info">
-        <h4>Delete Account</h4>
-        <p>Permanently delete your account and all associated data. This action cannot be undone.</p>
-      </div>
-      <button class="btn btn-danger" (click)="deleteAccount()">
-        <lucide-icon name="trash-2" [size]="16"></lucide-icon>
-        <span>Delete</span>
-      </button>
+      <div class="info"><h4>Delete Account</h4><p>Permanently delete your account.</p></div>
+      <button class="btn btn-danger" (click)="deleteAccount()"><lucide-icon name="trash-2" [size]="16"></lucide-icon> Delete</button>
     </div>
   </div>
 
-  <!-- === SAVE ACTION === -->
   <div class="settings-actions">
     <button class="btn btn-save cyan" (click)="saveChanges()">Save Changes</button>
   </div>
