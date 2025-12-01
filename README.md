@@ -1,3 +1,4 @@
+
 <p align="center">
   <img src="frontend/src/assets/images/HearMi.svg" alt="HearMi Logo" width="400"/>
 </p>
@@ -19,118 +20,122 @@ Built with Angular, Node.js, Express, and Supabase.
 # 🛠 Tech Stack
 
 ## Frontend
-- Angular (TypeScript)
-- HTML5 / CSS3
-- Web Audio API (tone, chord & interval generation)
-- Angular Routing
-- Angular HttpClient (AJAX requests)
+- **Angular 16+** (Standalone Components)
+- **TypeScript**
+- **SCSS** (Glassmorphism UI)
+- **Web Audio API** (Real-time tone generation)
+- **Lucide Angular** (Icons)
 
 ## Backend
-- Node.js
-- Express.js
-- Supabase JS SDK
-
-## Database
-- Supabase (PostgreSQL)
-- Supabase Auth (login/register)
-- Supabase for storing stats & results
+- **Node.js** & **Express**
+- **TypeScript**
+- **Supabase** (PostgreSQL Database, Auth, Storage)
+- **Multer** (Avatar Uploads)
 
 ---
 
-# 🎮 Training Modes (MVP)
+# 🎮 Training Modes
 
 ## 1️⃣ Single Note Mode
-- Plays one musical note using Web Audio API
-- User selects the correct note name (C, D#, F, etc.)
+- Plays one musical note using the Web Audio API.
+- User selects the correct note name (C, C#, D, etc.).
 
 ## 2️⃣ Chord Recognition
-Plays 3-note chords:
-- Major  
-- Minor  
-- Dominant 7  
-- Sus4  
-- Power chord (5)  
-- Major 6  
-- Minor 6  
-User selects which chord type they heard.
+Plays 3-note chords. Identify the quality:
+- Major
+- Minor
+- Dominant 7
+- Sus4
+- Power Chord (5)
 
 ## 3️⃣ Pitch Comparison
-Two notes played one after another:  
-- Is the second note **higher**, **lower**, or **same**?  
-- Optionally: how many semitones difference?
+Two notes are played sequentially. Determine if the second note is:
+- **Higher**
+- **Lower**
+- **Same**
 
-## 4️⃣ Interval Training (Prime → Octave)
-Two notes forming classic intervals:
-- Prime (unison)
-- m2 (minor second)
-- M2 (major second)
-- m3
-- M3
-- Perfect 4th
+## 4️⃣ Interval Training (Unison → Octave)
+Two notes are played harmonically and melodically. Identify the interval:
+- Unison (Prime)
+- Minor 2nd (m2) / Major 2nd (M2)
+- Minor 3rd (m3) / Major 3rd (M3)
+- Perfect 4th (P4)
 - Tritone
-- Perfect 5th
-- m6
-- M6
-- m7
-- M7
+- Perfect 5th (P5)
+- Minor 6th (m6) / Major 6th (M6)
+- Minor 7th (m7) / Major 7th (M7)
 - Octave
 
-User identifies the interval by ear.
+---
+
+# 👤 Authentication & Profile
+- **JWT Authentication:** Secure Register & Login via Supabase.
+- **Profile Management:**
+  - Upload/Change Profile Picture (stored in Supabase Storage).
+  - "Danger Zone": Reset all progress or Delete account permanently.
 
 ---
 
-# 👤 Authentication (Supabase)
-- Register  
-- Login  
-- Logout  
-- Session handling  
-- Secure storage of user profiles
-
----
-
-# 📊 Statistics (Profile Page)
-- Overall accuracy  
-- Accuracy per training mode  
-- Last 20 attempts  
-- Time spent training  
-- Best streak per mode  
+# 📊 Statistics (Dashboard)
+- **Overall Accuracy** & Total Sessions played.
+- **Detailed Breakdown:** Best streak and accuracy per training mode.
+- **Recent Activity:** History of the last 5 training sessions.
 
 ---
 
 # 🤝 Team Roles
 
-## Frontend Developer
-- Angular components & routing  
-- Web Audio API  
-- Training mode logic  
-- UI & design (HTML/CSS)  
-- AJAX calls to backend  
-- Stats and profile page  
+## Frontend Developer (23|Benji)
+- Angular architecture & routing.
+- Web Audio API integration (Sound generation).
+- Responsive UI/UX design (Glassmorphism).
+- Game logic & State management.
 
-## Backend Developer
-- Express API  
-- Supabase database logic  
-- Authentication handling  
-- Generate tasks (notes/chords/intervals)  
-- Score and stats saving  
+## Backend Developer (HerWang)
+- Express API with TypeScript.
+- Database schema & Supabase integration.
+- Authentication middleware (JWT).
+- API endpoints for Results, Users, and Avatars.
 
 ---
 
 # 🚀 Installation
 
-## Frontend
+### Prerequisites
+- Node.js (v18+)
+- A Supabase project (URL & Service Key)
+
+### 1. Frontend
 ```bash
 cd frontend
 npm install
 ng serve
 ````
 
-## Backend
+*Navigate to `http://localhost:4200/`*
+
+### 2\. Backend
+
+Create a `.env` file in the `backend` folder with:
+
+```env
+SUPABASE_URL=your_supabase_url
+SUPABASE_SERVICE_KEY=your_supabase_key
+JWT_SECRET=your_jwt_secret
+```
+
+Then run:
 
 ```bash
 cd backend
 npm install
-node index.js
+npm run dev
 ```
+
+*API runs on `http://localhost:3000/`*
+
+-----
+
 # 📜 License
+
 This project is released under the MIT License.
