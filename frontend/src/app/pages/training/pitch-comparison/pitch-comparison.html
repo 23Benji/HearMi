@@ -1,3 +1,5 @@
+<!-- frontend/src/app/pages/training/pitch-comparison/pitch-comparison.html -->
+
 <div class="training-header">
   <h1>Pitch Comparison</h1>
   <p class="subtitle">Listen to two notes and compare their pitch</p>
@@ -34,13 +36,19 @@
 </section>
 
 <div class="main-interaction-card">
-  <button class="play-button orange" (click)="playChallenge()" [class.inactive]="isAwaitingAnswer || showFeedback">
+  <button
+    class="play-button orange"
+    (click)="playChallenge()"
+    [class.inactive]="isAwaitingAnswer || showFeedback"
+  >
     <span class="play-icon">▶</span>
   </button>
 
   @if (showFeedback) {
     <div class="feedback-popup" [ngClass]="{ 'correct': isCorrect, 'incorrect': !isCorrect }">
-      <div class="icon-wrapper"><lucide-icon [name]="isCorrect ? 'check-circle-2' : 'x-circle'" [size]="24"></lucide-icon></div>
+      <div class="icon-wrapper">
+        <lucide-icon [name]="isCorrect ? 'check-circle-2' : 'x-circle'" [size]="24"></lucide-icon>
+      </div>
       <div class="message">
         <h4>{{ isCorrect ? 'Correct' : 'Incorrect' }}</h4>
         <p>{{ feedbackMessage }}</p>
@@ -49,13 +57,50 @@
   }
 
   <div class="answer-grid" style="grid-template-columns: repeat(3, 1fr);">
-    <button class="answer-button" (click)="checkAnswer('Higher')" [disabled]="!isAwaitingAnswer"><lucide-icon name="arrow-up" [size]="24"></lucide-icon>Higher</button>
-    <button class="answer-button" (click)="checkAnswer('Same')" [disabled]="!isAwaitingAnswer"><lucide-icon name="minus" [size]="24"></lucide-icon>Same</button>
-    <button class="answer-button" (click)="checkAnswer('Lower')" [disabled]="!isAwaitingAnswer"><lucide-icon name="arrow-down" [size]="24"></lucide-icon>Lower</button>
+    <button
+      class="answer-button"
+      (click)="checkAnswer('Higher')"
+      [disabled]="!isAwaitingAnswer"
+    >
+      <lucide-icon name="arrow-up" [size]="24"></lucide-icon>
+      Higher
+    </button>
+    <button
+      class="answer-button"
+      (click)="checkAnswer('Same')"
+      [disabled]="!isAwaitingAnswer"
+    >
+      <lucide-icon name="minus" [size]="24"></lucide-icon>
+      Same
+    </button>
+    <button
+      class="answer-button"
+      (click)="checkAnswer('Lower')"
+      [disabled]="!isAwaitingAnswer"
+    >
+      <lucide-icon name="arrow-down" [size]="24"></lucide-icon>
+      Lower
+    </button>
   </div>
 </div>
 
 <div class="session-controls">
   <button class="btn btn-reset" (click)="resetSession()">Reset</button>
-  <button class="btn btn-save orange" (click)="saveSession()">Save & New Session</button>
+
+  <button
+    class="btn btn-save orange"
+    (click)="saveSession()"
+    [disabled]="isSaving || questions === 0"
+  >
+    {{ isSaving ? 'Saving…' : 'Save & New Session' }}
+  </button>
+</div>
+
+<div class="session-messages">
+  <p *ngIf="saveSuccess" class="session-success">
+    {{ saveSuccess }}
+  </p>
+  <p *ngIf="saveError" class="session-error">
+    {{ saveError }}
+  </p>
 </div>

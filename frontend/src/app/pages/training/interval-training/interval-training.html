@@ -1,3 +1,5 @@
+<!-- frontend/src/app/pages/training/interval-training/interval-training.html -->
+
 <div class="training-header">
   <h1>Interval Training</h1>
   <p class="subtitle">Identify the interval between two notes</p>
@@ -34,13 +36,19 @@
 </section>
 
 <div class="main-interaction-card">
-  <button class="play-button green" (click)="playChallenge()" [class.inactive]="isAwaitingAnswer || showFeedback">
+  <button
+    class="play-button green"
+    (click)="playChallenge()"
+    [class.inactive]="isAwaitingAnswer || showFeedback"
+  >
     <span class="play-icon">▶</span>
   </button>
 
   @if (showFeedback) {
     <div class="feedback-popup" [ngClass]="{ 'correct': isCorrect, 'incorrect': !isCorrect }">
-      <div class="icon-wrapper"><lucide-icon [name]="isCorrect ? 'check-circle-2' : 'x-circle'" [size]="24"></lucide-icon></div>
+      <div class="icon-wrapper">
+        <lucide-icon [name]="isCorrect ? 'check-circle-2' : 'x-circle'" [size]="24"></lucide-icon>
+      </div>
       <div class="message">
         <h4>{{ isCorrect ? 'Correct' : 'Incorrect' }}</h4>
         <p>{{ feedbackMessage }}</p>
@@ -49,13 +57,35 @@
   }
 
   <div class="answer-grid" style="grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));">
-    @for(interval of intervals; track interval) {
-      <button class="answer-button" (click)="checkAnswer(interval)" [disabled]="!isAwaitingAnswer">{{interval}}</button>
+    @for (interval of intervals; track interval) {
+      <button
+        class="answer-button"
+        (click)="checkAnswer(interval)"
+        [disabled]="!isAwaitingAnswer"
+      >
+        {{interval}}
+      </button>
     }
   </div>
 </div>
 
 <div class="session-controls">
   <button class="btn btn-reset" (click)="resetSession()">Reset</button>
-  <button class="btn btn-save green" (click)="saveSession()">Save & New Session</button>
+
+  <button
+    class="btn btn-save green"
+    (click)="saveSession()"
+    [disabled]="isSaving || questions === 0"
+  >
+    {{ isSaving ? 'Saving…' : 'Save & New Session' }}
+  </button>
+</div>
+
+<div class="session-messages">
+  <p *ngIf="saveSuccess" class="session-success">
+    {{ saveSuccess }}
+  </p>
+  <p *ngIf="saveError" class="session-error">
+    {{ saveError }}
+  </p>
 </div>

@@ -1,11 +1,9 @@
+<!-- frontend/src/app/pages/dashboard/dashboard.html -->
+
 <div class="dashboard-header">
-  <h1>
-    Welcome back,
-    <span class="highlight">{{ username || 'Musician' }}</span>
-  </h1>
+  <h1>Welcome back, {{ username }}</h1>
   <p class="subtitle">Continue your ear training journey</p>
 </div>
-
 
 <!-- Overall Stats -->
 <section class="summary-cards">
@@ -17,7 +15,7 @@
       </div>
       <h4>Total Sessions</h4>
     </div>
-    <p class="stat-value">8</p>
+    <p class="stat-value">{{ totalSessions }}</p>
   </div>
 
   <!-- Overall Accuracy Card -->
@@ -28,7 +26,9 @@
       </div>
       <h4>Overall Accuracy</h4>
     </div>
-    <p class="stat-value text-cyan">57.5%</p>
+    <p class="stat-value text-cyan">
+      {{ overallAccuracy | number: '1.0-1' }}%
+    </p>
   </div>
 
   <!-- Total Correct Card -->
@@ -39,100 +39,92 @@
       </div>
       <h4>Total Correct</h4>
     </div>
-    <p class="stat-value">23</p>
+    <p class="stat-value">{{ totalCorrect }}</p>
   </div>
 </section>
+
 <!-- Training Modes -->
 <h2>Training Modes</h2>
 <section class="training-cards">
-  <div class="card training-card">
+  <div
+    class="card training-card"
+    *ngFor="let card of trainingCards"
+    (mousemove)="onCardMouseMove($event)"
+  >
     <div class="card-header">
-      <div class="icon-wrapper bg-cyan"><lucide-icon name="music" [size]="20"></lucide-icon></div>
+      <div class="icon-wrapper" [ngClass]="card.colorClass">
+        <lucide-icon [name]="card.iconName" [size]="20"></lucide-icon>
+      </div>
       <div class="text-wrapper">
-        <h3>Single Note</h3><p class="description">Identify individual notes</p>
+        <h3>{{ card.label }}</h3>
+        <p class="description">
+          <!-- Du kannst hier später pro Modus noch eigene Beschreibung setzen -->
+        </p>
       </div>
     </div>
-    <div class="card-stats">
-      <div class="stat-item"><span>Sessions</span> <span>4</span></div>
-      <div class="stat-item"><span>Best Accuracy</span> <span class="text-cyan">44.4%</span></div>
-      <div class="stat-item"><span>Best Streak</span> <span>1</span></div>
-    </div>
-    <button class="btn btn-cyan" (click)="startTraining('single-note')">Start Training →</button>
-  </div>
 
-  <div class="card training-card">
-    <div class="card-header">
-      <div class="icon-wrapper bg-purple"><lucide-icon name="music-2" [size]="20"></lucide-icon></div>
-      <div class="text-wrapper">
-        <h3>Chord Recognition</h3><p class="description">Identify chord types</p>
+    <div class="card-stats">
+      <div class="stat-item">
+        <span>Sessions</span> <span>{{ card.sessions }}</span>
+      </div>
+      <div class="stat-item">
+        <span>Best Accuracy</span>
+        <span class="text-cyan">{{ card.bestAccuracy || 0 }}%</span>
+      </div>
+      <div class="stat-item">
+        <span>Best Streak</span> <span>{{ card.bestStreak || 0 }}</span>
       </div>
     </div>
-    <div class="card-stats">
-      <div class="stat-item"><span>Sessions</span> <span>1</span></div>
-      <div class="stat-item"><span>Best Accuracy</span> <span class="text-purple">20.0%</span></div>
-      <div class="stat-item"><span>Best Streak</span> <span>0</span></div>
-    </div>
-    <button class="btn btn-purple" (click)="startTraining('chord-recognition')">Start Training →</button>
-  </div>
 
-  <div class="card training-card">
-    <div class="card-header">
-      <div class="icon-wrapper bg-orange"><lucide-icon name="git-compare" [size]="20"></lucide-icon></div>
-      <div class="text-wrapper">
-        <h3>Pitch Comparison</h3><p class="description">Compare note intervals</p>
-      </div>
-    </div>
-    <div class="card-stats">
-      <div class="stat-item"><span>Sessions</span> <span>2</span></div>
-      <div class="stat-item"><span>Best Accuracy</span> <span class="text-orange">90.0%</span></div>
-      <div class="stat-item"><span>Best Streak</span> <span>0</span></div>
-    </div>
-    <button class="btn btn-orange" (click)="startTraining('pitch-comparison')">Start Training →</button>
-  </div>
-
-  <div class="card training-card">
-    <div class="card-header">
-      <div class="icon-wrapper bg-green"><lucide-icon name="waves" [size]="20"></lucide-icon></div>
-      <div class="text-wrapper">
-        <h3>Interval Training</h3><p class="description">Recognize musical intervals</p>
-      </div>
-    </div>
-    <div class="card-stats">
-      <div class="stat-item"><span>Sessions</span> <span>1</span></div>
-      <div class="stat-item"><span>Best Accuracy</span> <span class="text-green">60.0%</span></div>
-      <div class="stat-item"><span>Best Streak</span> <span>2</span></div>
-    </div>
-    <button class="btn btn-green" (click)="startTraining('interval-training')">Start Training →</button>
+    <button
+      class="btn"
+      [ngClass]="{
+        'btn-cyan': card.colorClass === 'bg-cyan',
+        'btn-purple': card.colorClass === 'bg-purple',
+        'btn-orange': card.colorClass === 'bg-orange',
+        'btn-green': card.colorClass === 'bg-green'
+      }"
+      (click)="startTraining(card.routeSegment)"
+    >
+      Start Training →
+    </button>
   </div>
 </section>
 
-  <!-- ADD THIS ENTIRE SECTION TO THE END OF YOUR DASHBOARD HTML -->
-
+<!-- Recent Activity -->
 <h2>Recent Activity</h2>
 <section class="activity-list">
-
-  <!-- This is the new @for block syntax -->
-  @for (activity of recentActivities; track activity.id) {
+  @if (loading) {
     <div class="activity-item">
-      <div class="activity-icon {{ activity.colorClass }}">
-        <lucide-icon [name]="activity.iconName" [size]="20"></lucide-icon>
-      </div>
-
-      <div class="activity-info">
-        <p class="activity-title">{{ activity.modeName }}</p>
-        <p class="activity-details">{{ activity.score }}/{{ activity.total }} correct</p>
-      </div>
-
-      <div class="activity-stats">
-        <p class="activity-percent">{{ activity.accuracy }}%</p>
-        <p class="activity-streak">Streak: {{ activity.streak }}</p>
-      </div>
+      <p>Loading stats…</p>
     </div>
-  } @empty {
-    <!-- This part shows up if the recentActivities array is empty -->
+  } @else if (error) {
     <div class="activity-item">
-      <p>No recent activity to show. Start a training session!</p>
+      <p class="activity-error">{{ error }}</p>
     </div>
+  } @else {
+    @for (activity of recentActivities; track activity.id) {
+      <div class="activity-item">
+        <div class="activity-icon" [ngClass]="activity.colorClass">
+          <lucide-icon [name]="activity.iconName" [size]="20"></lucide-icon>
+        </div>
+
+        <div class="activity-info">
+          <p class="activity-title">{{ activity.modeName }}</p>
+          <p class="activity-details">
+            {{ activity.score }}/{{ activity.total }} correct
+          </p>
+        </div>
+
+        <div class="activity-stats">
+          <p class="activity-percent">{{ activity.accuracy }}%</p>
+          <p class="activity-streak">Streak: {{ activity.streak }}</p>
+        </div>
+      </div>
+    } @empty {
+      <div class="activity-item">
+        <p>No recent activity to show. Start a training session!</p>
+      </div>
+    }
   }
-
 </section>

@@ -4,8 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 
-// 1. Import the AudioService
 import { AudioService } from '../../../services/audio';
+import { TrainingService } from '../../../services/training.service';
+import { TrainingSession } from '../../../models/training-session';
 
 @Component({
   selector: 'app-chord-recognition',
@@ -15,15 +16,27 @@ import { AudioService } from '../../../services/audio';
   styleUrl: './chord-recognition.scss',
 })
 export class ChordRecognitionComponent implements OnInit {
-  score = 0; accuracy = 0; streak = 0; questions = 0;
-  showFeedback = false; feedbackMessage = ''; isCorrect: boolean | null = null;
+  score = 0;
+  accuracy = 0;
+  streak = 0;
+  questions = 0;
+  showFeedback = false;
+  feedbackMessage = '';
+  isCorrect: boolean | null = null;
   isAwaitingAnswer = false;
+
+  // UI-State für Speichern
+  isSaving = false;
+  saveSuccess = '';
+  saveError = '';
 
   chords = ['Major', 'Minor', 'Dominant 7', 'Sus4', 'Power Chord'];
   correctAnswer: string | null = null;
 
-  // 2. Inject the AudioService in the constructor
-  constructor(private audioService: AudioService) {}
+  constructor(
+    private audioService: AudioService,
+    private trainingService: TrainingService
+  ) {}
 
   ngOnInit(): void {
     this.generateNewQuestion();
@@ -38,9 +51,7 @@ export class ChordRecognitionComponent implements OnInit {
   playChallenge(): void {
     if (this.isAwaitingAnswer || this.showFeedback || !this.correctAnswer) return;
 
-    // 3. Replace the console.log with a call to our service's new method
     this.audioService.playChordByName(this.correctAnswer);
-
     this.isAwaitingAnswer = true;
   }
 
@@ -59,7 +70,12 @@ export class ChordRecognitionComponent implements OnInit {
       this.feedbackMessage = `Incorrect. The chord was ${this.correctAnswer}.`;
       this.streak = 0;
     }
-    this.accuracy = this.questions > 0 ? Math.round((this.score / this.questions) * 100) : 0;
+
+    this.accuracy =
+      this.questions > 0
+        ? Math.round((this.score / this.questions) * 100)
+        : 0;
+
     this.showFeedbackPopup();
   }
 
@@ -72,13 +88,52 @@ export class ChordRecognitionComponent implements OnInit {
   }
 
   resetSession(): void {
-    this.score = 0; this.accuracy = 0; this.streak = 0; this.questions = 0;
-    this.isAwaitingAnswer = false; this.showFeedback = false;
+    this.score = 0;
+    this.accuracy = 0;
+    this.streak = 0;
+    this.questions = 0;
+    this.isAwaitingAnswer = false;
+    this.showFeedback = false;
+
+    this.saveSuccess = '';
+    this.saveError = '';
+
     this.generateNewQuestion();
   }
 
   saveSession(): void {
-    console.log('Saving session to backend...');
-    // TODO: Call your backend data service here.
+    if (this.questions === 0) {
+      this.saveError = 'No data to save yet. Answer a few questions first.';
+      this.saveSuccess = '';
+      return;
+    }
+
+    this.isSaving = true;
+    this.saveSuccess = '';
+    this.saveError = '';
+
+    const session = new TrainingSession(
+      2,                 // exercise_id für Chord Recognition
+      'Chord Recognition',
+      this.score,
+      this.questions,
+      this.accuracy,
+      this.streak
+    );
+
+    this.trainingService.saveSession(session).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.saveSuccess = 'Session saved successfully 🎉';
+        this.saveError = '';
+        this.resetSession();
+      },
+      error: (err) => {
+        console.error('Error saving Chord Recognition session', err);
+        this.isSaving = false;
+        this.saveError = 'Could not save session. Please try again.';
+        this.saveSuccess = '';
+      }
+    });
   }
 }

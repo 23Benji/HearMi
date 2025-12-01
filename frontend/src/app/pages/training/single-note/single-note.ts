@@ -4,8 +4,10 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 
-// 1. Import the new AudioService
+// Services
 import { AudioService } from '../../../services/audio';
+import { TrainingService } from '../../../services/training.service';
+import { TrainingSession } from '../../../models/training-session';
 
 @Component({
   selector: 'app-single-note',
@@ -16,7 +18,10 @@ import { AudioService } from '../../../services/audio';
 })
 export class SingleNoteComponent implements OnInit {
   // Session State
-  score = 0; accuracy = 0; streak = 0; questions = 0;
+  score = 0;
+  accuracy = 0;
+  streak = 0;
+  questions = 0;
 
   // Feedback & Game Flow State
   showFeedback = false;
@@ -24,13 +29,19 @@ export class SingleNoteComponent implements OnInit {
   isCorrect: boolean | null = null;
   isAwaitingAnswer = false;
 
+  // UI-State für Speichern
+  isSaving = false;
+  saveSuccess = '';
+  saveError = '';
+
   // Game-specific variables
   notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
   correctAnswer: string | null = null;
 
-  // 2. "Inject" the AudioService in the constructor.
-  // Angular's dependency injection system will automatically provide it.
-  constructor(private audioService: AudioService) {}
+  constructor(
+    private audioService: AudioService,
+    private trainingService: TrainingService
+  ) {}
 
   ngOnInit(): void {
     this.generateNewQuestion();
@@ -45,9 +56,7 @@ export class SingleNoteComponent implements OnInit {
   playChallenge(): void {
     if (this.isAwaitingAnswer || this.showFeedback || !this.correctAnswer) return;
 
-    // 3. Replace the console.log with a call to our new service!
     this.audioService.playNoteByName(this.correctAnswer);
-
     this.isAwaitingAnswer = true;
   }
 
@@ -66,7 +75,12 @@ export class SingleNoteComponent implements OnInit {
       this.feedbackMessage = `Not quite. The correct note was ${this.correctAnswer}.`;
       this.streak = 0;
     }
-    this.accuracy = this.questions > 0 ? Math.round((this.score / this.questions) * 100) : 0;
+
+    this.accuracy =
+      this.questions > 0
+        ? Math.round((this.score / this.questions) * 100)
+        : 0;
+
     this.showFeedbackPopup();
   }
 
@@ -79,13 +93,56 @@ export class SingleNoteComponent implements OnInit {
   }
 
   resetSession(): void {
-    this.score = 0; this.accuracy = 0; this.streak = 0; this.questions = 0;
-    this.isAwaitingAnswer = false; this.showFeedback = false;
+    this.score = 0;
+    this.accuracy = 0;
+    this.streak = 0;
+    this.questions = 0;
+    this.isAwaitingAnswer = false;
+    this.showFeedback = false;
+
+    // Meldungen resetten
+    this.saveSuccess = '';
+    this.saveError = '';
+
     this.generateNewQuestion();
   }
 
   saveSession(): void {
-    console.log('Saving session to backend...');
-    // TODO: Call your backend data service here.
+    // keine Fragen gespielt -> nicht speichern
+    if (this.questions === 0) {
+      this.saveError = 'No data to save yet. Answer a few questions first.';
+      this.saveSuccess = '';
+      return;
+    }
+
+    this.isSaving = true;
+    this.saveSuccess = '';
+    this.saveError = '';
+
+    const session = new TrainingSession(
+      1,                // exercise_id für Single Note
+      'Single Note',
+      this.score,
+      this.questions,
+      this.accuracy,
+      this.streak
+    );
+
+    this.trainingService.saveSession(session).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.saveSuccess = 'Session saved successfully 🎉';
+        this.saveError = '';
+
+        // Session zurücksetzen, nachdem gespeichert wurde
+        this.resetSession();
+      },
+      error: (err) => {
+        console.error('Error saving Single Note session', err);
+        this.isSaving = false;
+        this.saveError = 'Could not save session. Please try again.';
+        this.saveSuccess = '';
+      }
+    });
   }
 }

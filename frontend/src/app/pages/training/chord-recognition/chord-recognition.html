@@ -1,3 +1,5 @@
+<!-- frontend/src/app/pages/training/chord-recognition/chord-recognition.html -->
+
 <div class="training-header">
   <h1>Chord Recognition</h1>
   <p class="subtitle">Distinguish between different chord types</p>
@@ -34,13 +36,19 @@
 </section>
 
 <div class="main-interaction-card">
-  <button class="play-button purple" (click)="playChallenge()" [class.inactive]="isAwaitingAnswer || showFeedback">
+  <button
+    class="play-button purple"
+    (click)="playChallenge()"
+    [class.inactive]="isAwaitingAnswer || showFeedback"
+  >
     <span class="play-icon">▶</span>
   </button>
 
   @if (showFeedback) {
     <div class="feedback-popup" [ngClass]="{ 'correct': isCorrect, 'incorrect': !isCorrect }">
-      <div class="icon-wrapper"><lucide-icon [name]="isCorrect ? 'check-circle-2' : 'x-circle'" [size]="24"></lucide-icon></div>
+      <div class="icon-wrapper">
+        <lucide-icon [name]="isCorrect ? 'check-circle-2' : 'x-circle'" [size]="24"></lucide-icon>
+      </div>
       <div class="message">
         <h4>{{ isCorrect ? 'Correct' : 'Incorrect' }}</h4>
         <p>{{ feedbackMessage }}</p>
@@ -49,13 +57,35 @@
   }
 
   <div class="answer-grid" style="grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));">
-    @for(chord of chords; track chord) {
-      <button class="answer-button" (click)="checkAnswer(chord)" [disabled]="!isAwaitingAnswer">{{chord}}</button>
+    @for (chord of chords; track chord) {
+      <button
+        class="answer-button"
+        (click)="checkAnswer(chord)"
+        [disabled]="!isAwaitingAnswer"
+      >
+        {{chord}}
+      </button>
     }
   </div>
 </div>
 
 <div class="session-controls">
   <button class="btn btn-reset" (click)="resetSession()">Reset</button>
-  <button class="btn btn-save purple" (click)="saveSession()">Save & New Session</button>
+
+  <button
+    class="btn btn-save purple"
+    (click)="saveSession()"
+    [disabled]="isSaving || questions === 0"
+  >
+    {{ isSaving ? 'Saving…' : 'Save & New Session' }}
+  </button>
+</div>
+
+<div class="session-messages">
+  <p *ngIf="saveSuccess" class="session-success">
+    {{ saveSuccess }}
+  </p>
+  <p *ngIf="saveError" class="session-error">
+    {{ saveError }}
+  </p>
 </div>

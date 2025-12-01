@@ -4,8 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LucideAngularModule } from 'lucide-angular';
 
-// 1. Import the AudioService
 import { AudioService } from '../../../services/audio';
+import { TrainingService } from '../../../services/training.service';
+import { TrainingSession } from '../../../models/training-session';
 
 @Component({
   selector: 'app-pitch-comparison',
@@ -15,9 +16,19 @@ import { AudioService } from '../../../services/audio';
   styleUrl: './pitch-comparison.scss',
 })
 export class PitchComparisonComponent implements OnInit {
-  score = 0; accuracy = 0; streak = 0; questions = 0;
-  showFeedback = false; feedbackMessage = ''; isCorrect: boolean | null = null;
+  score = 0;
+  accuracy = 0;
+  streak = 0;
+  questions = 0;
+  showFeedback = false;
+  feedbackMessage = '';
+  isCorrect: boolean | null = null;
   isAwaitingAnswer = false;
+
+  // UI-State für Speichern
+  isSaving = false;
+  saveSuccess = '';
+  saveError = '';
 
   options = ['Higher', 'Same', 'Lower'];
   private note1: number | null = null;
@@ -25,8 +36,10 @@ export class PitchComparisonComponent implements OnInit {
   private correctAnswer: string | null = null;
   private difference = 0;
 
-  // 2. Inject the AudioService in the constructor
-  constructor(private audioService: AudioService) {}
+  constructor(
+    private audioService: AudioService,
+    private trainingService: TrainingService
+  ) {}
 
   ngOnInit(): void { this.generateNewQuestion(); }
 
@@ -52,9 +65,7 @@ export class PitchComparisonComponent implements OnInit {
   playChallenge(): void {
     if (this.isAwaitingAnswer || this.showFeedback || this.note1 === null || this.note2 === null) return;
 
-    // 3. Replace the console.log with a call to our service's new method
     this.audioService.playNoteComparison(this.note1, this.note2);
-
     this.isAwaitingAnswer = true;
   }
 
@@ -64,10 +75,13 @@ export class PitchComparisonComponent implements OnInit {
     this.questions++;
 
     if (selectedOption === this.correctAnswer) {
-      this.isCorrect = true; this.feedbackMessage = 'Correct!';
-      this.score++; this.streak++;
+      this.isCorrect = true;
+      this.feedbackMessage = 'Correct!';
+      this.score++;
+      this.streak++;
     } else {
-      this.isCorrect = false; this.feedbackMessage = `Wrong. It was ${Math.abs(this.difference)} semitones ${this.correctAnswer?.toLowerCase()}.`;
+      this.isCorrect = false;
+      this.feedbackMessage = `Wrong. It was ${Math.abs(this.difference)} semitones ${this.correctAnswer?.toLowerCase()}.`;
       this.streak = 0;
     }
 
@@ -84,10 +98,52 @@ export class PitchComparisonComponent implements OnInit {
   }
 
   resetSession(): void {
-    this.score = 0; this.accuracy = 0; this.streak = 0; this.questions = 0;
-    this.isAwaitingAnswer = false; this.showFeedback = false;
+    this.score = 0;
+    this.accuracy = 0;
+    this.streak = 0;
+    this.questions = 0;
+    this.isAwaitingAnswer = false;
+    this.showFeedback = false;
+
+    this.saveSuccess = '';
+    this.saveError = '';
+
     this.generateNewQuestion();
   }
 
-  saveSession(): void { console.log('Saving session...'); /* TODO */ }
+  saveSession(): void {
+    if (this.questions === 0) {
+      this.saveError = 'No data to save yet. Answer a few questions first.';
+      this.saveSuccess = '';
+      return;
+    }
+
+    this.isSaving = true;
+    this.saveSuccess = '';
+    this.saveError = '';
+
+    const session = new TrainingSession(
+      3,                 // exercise_id für Pitch Comparison
+      'Pitch Comparison',
+      this.score,
+      this.questions,
+      this.accuracy,
+      this.streak
+    );
+
+    this.trainingService.saveSession(session).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.saveSuccess = 'Session saved successfully 🎉';
+        this.saveError = '';
+        this.resetSession();
+      },
+      error: (err) => {
+        console.error('Error saving Pitch Comparison session', err);
+        this.isSaving = false;
+        this.saveError = 'Could not save session. Please try again.';
+        this.saveSuccess = '';
+      }
+    });
+  }
 }
