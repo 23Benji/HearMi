@@ -3,18 +3,17 @@
 <div class="app-container">
   <aside class="sidebar" [ngClass]="{ 'sidebar-open': isSidebarOpen }">
 
-    <!-- HEADER: Restructured for the new mobile design -->
+    <!-- HEADER -->
     <div class="sidebar-header">
       <a class="logo-wrapper" routerLink="/dashboard" (click)="isSidebarOpen = false">
         <img src="assets/images/HearMi.svg" alt="HearMi Logo">
       </a>
-      <!-- This 'X' button is separate for better mobile layout control -->
       <button class="close-sidebar-btn" (click)="toggleSidebar()">
         <lucide-icon name="x" [size]="24"></lucide-icon>
       </button>
     </div>
 
-    <!-- Navigation Links: Now scrollable on mobile -->
+    <!-- NAVIGATION -->
     <nav class="sidebar-nav">
       <a class="nav-link" routerLink="/dashboard" routerLinkActive="active" (click)="isSidebarOpen = false">
         <lucide-icon name="layout-dashboard" [size]="20"></lucide-icon>
@@ -44,12 +43,14 @@
       </a>
     </nav>
 
-    <!-- User Profile & Logout Footer -->
+    <!-- USER PROFILE & LOGOUT -->
     <div class="sidebar-footer">
       <div class="user-profile">
-        <div class="user-avatar">D</div>
+        <div class="user-avatar">{{ usernameInitial }}</div>
         <div class="user-info">
-          <span class="user-name">UserName</span><br>
+          <span class="user-name">
+            {{ username || 'User' }}
+          </span>
         </div>
       </div>
 
@@ -57,9 +58,9 @@
         <lucide-icon name="cog" [size]="20"></lucide-icon>
       </a>
 
-      <a type="button" class="logout-button" (click)="logout()">
+      <button type="button" class="logout-button" (click)="logout()">
         <lucide-icon name="log-out" [size]="20"></lucide-icon>
-      </a>
+      </button>
     </div>
   </aside>
 

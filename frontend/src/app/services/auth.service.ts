@@ -9,6 +9,7 @@ interface LoginResponse {
 
 interface JwtPayload {
   userId?: string;
+  username?: string;
   exp?: number;
   iat?: number;
 }
@@ -19,54 +20,60 @@ interface JwtPayload {
 export class AuthService {
   private tokenKey = 'hearmi_token';
   private userIdKey = 'hearmi_user_id';
+  private usernameKey = 'hearmi_username';
 
   constructor(private http: HttpClient) {}
 
-  register(email: string, password: string) {
-    return this.http.post(`${environment.apiUrl}/auth/register`, { email, password });
+  // Registrierung mit Email + Username + Passwort
+  register(email: string, username: string, password: string) {
+    return this.http.post(`${environment.apiUrl}/auth/register`, {
+      email,
+      username,
+      password
+    });
   }
 
-  login(email: string, password: string) {
-    return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, { email, password });
+  // Login mit Email ODER Username (identifier) + Passwort
+  login(identifier: string, password: string) {
+    return this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, {
+      identifier,
+      password
+    });
   }
 
   /**
-   * Speichert Token + User-Kennzeichnung (userId) in der SESSION.
+   * Speichert Token + UserId + Username in der Session.
    */
   saveToken(token: string) {
-    // Token in Session speichern
     sessionStorage.setItem(this.tokenKey, token);
 
-    // Versuchen, userId aus dem JWT zu lesen
     const payload = this.decodeToken(token);
+
     if (payload?.userId) {
       sessionStorage.setItem(this.userIdKey, payload.userId);
     } else {
       sessionStorage.removeItem(this.userIdKey);
     }
+
+    if (payload?.username) {
+      sessionStorage.setItem(this.usernameKey, payload.username);
+    } else {
+      sessionStorage.removeItem(this.usernameKey);
+    }
   }
 
-  /**
-   * Token aus der Session holen.
-   */
   getToken(): string | null {
     return sessionStorage.getItem(this.tokenKey);
   }
 
-  /**
-   * User-Kennzeichnung (userId) aus der Session lesen.
-   */
   getUserId(): string | null {
     return sessionStorage.getItem(this.userIdKey);
   }
 
-  /**
-   * Ist der User eingeloggt?
-   * -> Token existiert
-   * -> Token decodierbar
-   * -> userId im Payload vorhanden
-   * -> exp (falls vorhanden) noch nicht abgelaufen
-   */
+  getUsername(): string | null {
+    return sessionStorage.getItem(this.usernameKey);
+  }
+
   isLoggedIn(): boolean {
     const token = this.getToken();
     if (!token) return false;
@@ -75,24 +82,18 @@ export class AuthService {
     if (!payload || !payload.userId) return false;
 
     if (payload.exp && Date.now() >= payload.exp * 1000) {
-      // Token ist abgelaufen
       return false;
     }
 
     return true;
   }
 
-  /**
-   * Logout: komplette Session des Users löschen.
-   */
   logout() {
     sessionStorage.removeItem(this.tokenKey);
     sessionStorage.removeItem(this.userIdKey);
+    sessionStorage.removeItem(this.usernameKey);
   }
 
-  /**
-   * Hilfsfunktion: JWT-Payload decodieren.
-   */
   private decodeToken(token: string): JwtPayload | null {
     try {
       const parts = token.split('.');

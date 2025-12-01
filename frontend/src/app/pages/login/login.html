@@ -1,3 +1,4 @@
+<!-- frontend/src/app/pages/login/login.html -->
 <div class="auth-container">
   <div class="auth-card">
     <div class="logo-container">
@@ -8,13 +9,13 @@
 
     <form (ngSubmit)="login()">
       <div class="form-group">
-        <label for="email">Email</label>
+        <label for="identifier">Email or Username</label>
         <input
-          id="email"
-          type="email"
-          placeholder="you@example.com"
+          id="identifier"
+          type="text"
+          placeholder="you@example.com or yourusername"
           [(ngModel)]="email"
-          name="email"
+          name="identifier"
           required
         />
       </div>

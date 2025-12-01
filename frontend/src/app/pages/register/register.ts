@@ -15,6 +15,7 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent {
 
   email = '';
+  username = '';
   password = '';
   confirmPassword = '';
 
@@ -30,7 +31,7 @@ export class RegisterComponent {
     this.error = '';
     this.success = '';
 
-    if (!this.email || !this.password || !this.confirmPassword) {
+    if (!this.email || !this.username || !this.password || !this.confirmPassword) {
       this.error = 'Bitte alle Felder ausfüllen.';
       return;
     }
@@ -40,10 +41,9 @@ export class RegisterComponent {
       return;
     }
 
-    this.auth.register(this.email, this.password).subscribe({
+    this.auth.register(this.email, this.username, this.password).subscribe({
       next: () => {
         this.success = 'Konto erstellt. Du kannst dich jetzt einloggen.';
-        // Direkt zum Login weiterleiten
         this.router.navigate(['/login']);
       },
       error: err => {

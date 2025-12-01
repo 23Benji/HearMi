@@ -9,37 +9,40 @@ const JWT_SECRET = process.env.JWT_SECRET as string;
 if (!JWT_SECRET) {
   throw new Error("JWT_SECRET fehlt in .env");
 }
-
-// Beschreibung, wie eine Zeile in der users-Tabelle aussieht
 interface UserRow {
   id: string;
   email: string;
   password_hash: string;
   created_at: string;
+  user_name?: string | null;
 }
 
 // POST /auth/register
 router.post(
   "/register",
   async (req: Request, res: Response): Promise<void> => {
-    const { email, password } = req.body as {
+    const { email, password, username } = req.body as {
       email?: string;
       password?: string;
+      username?: string;
     };
 
-    if (!email || !password) {
-      res.status(400).json({ error: "Email und Passwort nötig" });
+    if (!email || !password || !username) {
+      res.status(400).json({ error: "Email, Benutzername und Passwort nötig" });
       return;
     }
 
     try {
       const hash = await bcrypt.hash(password, 10);
 
-      // KEIN Generic mehr bei .from(...)
       const { data, error } = await supabase
         .from("users")
-        .insert({ email, password_hash: hash })
-        .select("id, email")
+        .insert({
+          email,
+          password_hash: hash,
+          user_name: username
+        })
+        .select("id, email, user_name")
         .single();
 
       if (error || !data) {
@@ -49,35 +52,53 @@ router.post(
         return;
       }
 
-      const user = data as { id: string; email: string };
-
-      res.status(201).json({ id: user.id, email: user.email });
+      res.status(201).json({
+        id: data.id,
+        email: data.email,
+        username: data.user_name
+      });
     } catch (e) {
       res.status(500).json({ error: "Serverfehler bei Registrierung" });
     }
   }
 );
 
+
 // POST /auth/login
 router.post(
   "/login",
   async (req: Request, res: Response): Promise<void> => {
-    const { email, password } = req.body as {
-      email?: string;
+    const { identifier, password } = req.body as {
+      identifier?: string; // kann Email ODER Username sein
       password?: string;
     };
 
-    if (!email || !password) {
-      res.status(400).json({ error: "Email und Passwort nötig" });
+    if (!identifier || !password) {
+      res
+        .status(400)
+        .json({ error: "Email/Benutzername und Passwort nötig" });
       return;
     }
 
     try {
-      const { data, error } = await supabase
+      // 1. Versuch: Email
+      let { data, error } = await supabase
         .from("users")
         .select("*")
-        .eq("email", email)
+        .eq("email", identifier)
         .single();
+
+      // 2. Versuch: Username, falls über Email nichts gefunden
+      if (error || !data) {
+        const byUsername = await supabase
+          .from("users")
+          .select("*")
+          .eq("user_name", identifier)
+          .single();
+
+        data = byUsername.data;
+        error = byUsername.error;
+      }
 
       if (error || !data) {
         res.status(401).json({ error: "Login fehlgeschlagen" });
@@ -92,9 +113,12 @@ router.post(
         return;
       }
 
-      const token = jwt.sign({ userId: user.id }, JWT_SECRET, {
-        expiresIn: "2h"
-      });
+      // Token enthält jetzt schon userId UND username (für Schritt 4)
+      const token = jwt.sign(
+        { userId: user.id, username: user.user_name },
+        JWT_SECRET,
+        { expiresIn: "2h" }
+      );
 
       res.json({ token });
     } catch (e) {
@@ -102,5 +126,6 @@ router.post(
     }
   }
 );
+
 
 export default router;

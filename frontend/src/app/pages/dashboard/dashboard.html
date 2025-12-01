@@ -1,8 +1,11 @@
-<!-- frontend/src/app/pages/dashboard/dashboard.component.html -->
 <div class="dashboard-header">
-  <h1>Welcome back, Davide Beniamin Paun</h1>
+  <h1>
+    Welcome back,
+    <span class="highlight">{{ username || 'Musician' }}</span>
+  </h1>
   <p class="subtitle">Continue your ear training journey</p>
 </div>
+
 
 <!-- Overall Stats -->
 <section class="summary-cards">
