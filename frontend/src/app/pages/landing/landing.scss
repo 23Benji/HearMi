@@ -201,6 +201,157 @@ nav {
   transform: translateY(-3px);
   box-shadow: 0 20px 40px -10px rgba(168, 85, 247, 0.6);
 }
+#how-it-works {
+  padding: 6rem 0;
+  // Subtle background variation
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.step-card {
+  padding: 2.5rem 2rem;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .step-number {
+    font-size: 4rem;
+    font-weight: 800;
+    color: rgba(255, 255, 255, 0.05);
+    position: absolute;
+    top: 0rem;
+    right: 1.5rem;
+    line-height: 1;
+  }
+
+  h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: $accent-cyan;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 1rem;
+  }
+}
+
+/* --- NEW: MINI CHALLENGE SECTION --- */
+#challenge {
+  padding: 6rem 0;
+  border-top: 1px solid $glass-border;
+}
+
+.challenge-layout {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 3rem;
+}
+
+.challenge-card {
+  width: 100%;
+  max-width: 500px;
+  min-height: 280px; // Prevent jumping height
+  padding: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, rgba(46, 26, 77, 0.6), rgba(15, 10, 36, 0.8));
+}
+
+.game-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  width: 100%;
+
+  h3 { font-size: 1.5rem; margin: 0; }
+  p { color: $text-muted; margin: 0; }
+}
+
+.pulse-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: $accent-purple;
+  color: white;
+  font-size: 2.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 0 rgba($accent-purple, 0.7);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba($accent-purple, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 20px rgba($accent-purple, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba($accent-purple, 0); }
+}
+
+.btn-game {
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid $glass-border;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover {
+    background: $accent-cyan;
+    color: #0f0a24;
+    transform: translateY(-2px);
+  }
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: $text-muted;
+  text-decoration: underline;
+  cursor: pointer;
+  &:hover { color: white; }
+}
+
+.btn-row {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.result-icon {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  &.success { color: $accent-green; }
+  &.fail { color: $accent-orange; }
+}
+
+// Adjust CTA for mini game
+.btn-cta.small {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+}
 
 /* --- TECHY FEATURES SECTION (REACTOR LAYOUT) --- */
 #features {

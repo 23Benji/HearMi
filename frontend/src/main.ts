@@ -44,7 +44,8 @@ import {
   Signal,
   ArrowLeft,
   Eye,
-  EyeOff
+  EyeOff,
+  Check
 } from 'lucide-angular';
 
 
@@ -93,7 +94,8 @@ bootstrapApplication(AppComponent, {
         Signal,
         ArrowLeft,
         Eye,
-        EyeOff
+        EyeOff,
+        Check
       })
     )
   ]
