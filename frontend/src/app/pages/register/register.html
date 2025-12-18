@@ -17,17 +17,17 @@
     <form (ngSubmit)="register()">
       <div class="form-group">
         <label for="email">Email</label>
-        <input id="email" type="email" placeholder="you@example.com" [(ngModel)]="email" name="email" required />
+        <input id="email" type="email" placeholder="email@example.com" [(ngModel)]="email" name="email" required />
       </div>
 
       <div class="form-group">
         <label for="username">Username</label>
-        <input id="username" type="text" placeholder="yourusername" [(ngModel)]="username" name="username" required />
+        <input id="username" type="text" placeholder="username" [(ngModel)]="username" name="username" required />
       </div>
       <div class="form-group">
         <label for="password">Password</label>
         <div class="input-wrapper">
-          <input id="password" [type]="showPassword ? 'text' : 'password'" placeholder="••••••••" [(ngModel)]="password"
+          <input id="password" [type]="showPassword ? 'text' : 'password'" minlength=8 placeholder="••••••••" [(ngModel)]="password"
             name="password" required />
           <button type="button" class="password-toggle" (click)="togglePassword()">
             <lucide-icon [name]="showPassword ? 'eye-off' : 'eye'" [size]="20"></lucide-icon>

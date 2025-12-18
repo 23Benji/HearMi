@@ -87,7 +87,7 @@ export class ChordRecognitionComponent implements OnInit {
     }, 2500);
   }
 
-  resetSession(): void {
+  resetSession(clearMessages: boolean = true): void {
     this.score = 0;
     this.accuracy = 0;
     this.streak = 0;
@@ -95,8 +95,10 @@ export class ChordRecognitionComponent implements OnInit {
     this.isAwaitingAnswer = false;
     this.showFeedback = false;
 
-    this.saveSuccess = '';
-    this.saveError = '';
+    if (clearMessages) {
+      this.saveSuccess = '';
+      this.saveError = '';
+    }
 
     this.generateNewQuestion();
   }
@@ -119,8 +121,8 @@ saveSession(): void {
     this.trainingService.saveSession(session).subscribe({
       next: () => {
         this.isSaving = false;
-        this.saveSuccess = 'Session saved successfully 🎉';
-        this.resetSession();
+        this.saveSuccess = 'Session saved successfully!';
+        this.resetSession(false);
         setTimeout(() => this.saveSuccess = '', 3000); // Auto-hide
       },
       error: (err) => {

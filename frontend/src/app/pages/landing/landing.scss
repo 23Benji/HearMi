@@ -86,8 +86,8 @@ nav {
 .logo-icon {
   /* Dynamic width that respects aspect ratio */
   width: auto;
-  height: 40px; /* Fixed height to fit navbar */
-  max-width: 150px; /* Cap width so it doesn't get too big */
+  height: 60px; /* Fixed height to fit navbar */
+  max-width: 200px; /* Cap width so it doesn't get too big */
 
   display: flex;
   align-items: center;

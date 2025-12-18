@@ -131,7 +131,7 @@ saveSession(): void {
     this.trainingService.saveSession(session).subscribe({
       next: () => {
         this.isSaving = false;
-        this.saveSuccess = 'Session saved successfully 🎉';
+        this.saveSuccess = 'Session saved successfully!';
         this.resetSession(false);
         setTimeout(() => this.saveSuccess = '', 3000); // Auto-hide
       },

@@ -5,40 +5,44 @@
 
 <div class="settings-card">
 
-  <h2><lucide-icon name="user-circle" [size]="20"></lucide-icon> Profile</h2>
+  <h2><lucide-icon name="user-circle" [size]="20"></lucide-icon> Profile - {{ username }}</h2>
 
-  <div class="profile-picture-section">
+<div class="profile-picture-section">
+  <div class="avatar-row">
     <img *ngIf="profileImageUrl" [src]="profileImageUrl" alt="User Avatar" class="avatar">
 
     <div *ngIf="!profileImageUrl" class="avatar placeholder">
       {{ usernameInitial }}
     </div>
-
-    <div class="upload-actions">
-      <label for="profilePictureInput" class="upload-label">
-        <lucide-icon name="upload" [size]="16"></lucide-icon>
-        <span>Change Picture</span>
-      </label>
-      <input type="file" id="profilePictureInput" (change)="onFileSelected($event)" accept="image/*" hidden>
-
-      <button
-        *ngIf="profileImageUrl"
-        class="upload-label"
-        style="background-color: transparent; border-color: var(--accent-orange); color: var(--accent-orange); margin-top: 0.25rem;"
-        (click)="removeAvatar()"
-      >
-        <lucide-icon name="trash-2" [size]="16"></lucide-icon>
-        <span>Remove</span>
-      </button>
-
-      <span class="upload-hint">PNG, JPG, or GIF. Max 2MB.</span>
-    </div>
   </div>
 
-  <div class="form-group">
-    <label for="username">Username</label>
-    <input type="text" id="username" [value]="username" disabled class="disabled-input">
+  <div class="upload-actions">
+    <label for="profilePictureInput" class="upload-label">
+      <lucide-icon name="upload" [size]="16"></lucide-icon>
+      <span>Change Picture</span>
+    </label>
+
+    <input
+      type="file"
+      id="profilePictureInput"
+      (change)="onFileSelected($event)"
+      accept="image/*"
+      hidden
+    >
+
+    <button
+      *ngIf="profileImageUrl"
+      class="upload-label remove"
+      (click)="removeAvatar()"
+    >
+      <lucide-icon name="trash-2" [size]="16"></lucide-icon>
+      <span>Remove</span>
+    </button>
+
+    <span class="upload-hint">PNG, JPG, or GIF. Max 2MB.</span>
   </div>
+</div>
+
 
   <div class="settings-actions">
     <button class="btn btn-save cyan" (click)="saveChanges()">Save Profile Picture</button>
